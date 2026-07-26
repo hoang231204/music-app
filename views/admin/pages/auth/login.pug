@@ -1,0 +1,56 @@
+extends ../../layouts/base
+
+include ../../mixins/alert
+
+block title
+  | Đăng nhập Quản trị
+
+block body
+  .min-h-screen.flex.items-center.justify-center.bg-slate-900.px-4.py-12
+    .max-w-md.w-full.space-y-6.bg-slate-800.p-8.rounded-2xl.shadow-xl.border.border-slate-700
+      .text-center
+        h2.text-2xl.font-bold.text-white Đăng nhập Admin
+        p.text-sm.text-slate-400.mt-1 Vui lòng nhập tài khoản để tiếp tục
+
+      //- Alert mixin hiển thị thông báo
+      if messages && messages.error
+        +alert({type: 'error', message: messages.error, dismissible: true})
+
+      if messages && messages.success
+        +alert({type: 'success', message: messages.success, dismissible: true})
+
+      if errorMessage
+        +alert({type: 'error', message: errorMessage, dismissible: true})
+
+      //- Form đăng nhập
+      form.space-y-4(action="/admin/auth/login" method="POST")
+        div
+          label.block.text-sm.font-medium.text-slate-300.mb-1(for="email") Email
+          input#email(
+            class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            type="email"
+            name="email"
+            placeholder="Nhập email..."
+            required
+          )
+
+        div
+          label.block.text-sm.font-medium.text-slate-300.mb-1(for="password") Mật khẩu
+          input#password(
+            class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            type="password"
+            name="password"
+            placeholder="Nhập mật khẩu..."
+            required
+          )
+
+        div.pt-2.space-y-3
+          button(
+            class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg transition-colors"
+            type="submit"
+          ) Đăng nhập
+
+          a(
+            class="block w-full text-center py-2.5 px-4 bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium rounded-lg transition-colors"
+            href="/"
+          ) Quay lại trang chủ
