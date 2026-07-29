@@ -2,6 +2,7 @@ import Topic from "../../models/topic-model";
 import { Request, Response } from "express";
 import createSearchRegex from "../../helpers/search-helper"
 import filterStatusHelper from "../../helpers/filter-status-helper";
+import paginationHelper from "../../helpers/pagination-helper";
 //GET /admin/topics
 type taskStatus = "active" | "inactive";
 interface FindQuery {
@@ -22,7 +23,12 @@ export const index = async (req: Request, res: Response) => {
             const regex = createSearchRegex({ keyword: req.query.keyword });
             findQuery.title = { $regex: regex };
         }
-        const topics = await Topic.find(findQuery);
+        //pagination
+        const countData: number = await Topic.find(findQuery).countDocuments();
+        const pagination = paginationHelper(req.query, countData);
+        const limit = pagination.limitPage;
+        const skip = pagination.skipPage;
+        const topics = await Topic.find(findQuery).limit(limit).skip(skip);
         res.render("admin/pages/topics/index", {
             title: "Quản lý chủ đề",
             topics: topics,
