@@ -1,0 +1,12 @@
+mixin filterStatus(statusList)
+  div(class="flex flex-wrap items-center gap-2")
+    each item in statusList
+      a(
+        href=`?status=${item.status}`
+        class=`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors inline-flex items-center gap-1.5 ${
+          item.class === 'active'
+            ? 'bg-indigo-50 text-indigo-600 border border-indigo-200 shadow-sm'
+            : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+        }`
+      )
+        span= item.name
