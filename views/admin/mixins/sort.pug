@@ -1,0 +1,13 @@
+mixin boxSort()
+  div(class="flex items-center gap-2" sort)
+    select(
+      name="sort" 
+      sort-select
+      class="bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block px-3 py-2 outline-none transition-colors"
+    )
+      option(value="title-asc") Tiêu đề A - Z
+      option(value="title-desc") Tiêu đề Z - A
+      option(value="createdAt-desc" selected) Mới nhất
+      option(value="createdAt-asc") Cũ nhất
+      option(value="songCount-desc") Số bài hát (Nhiều nhất)
+      option(value="songCount-asc") Số bài hát (Ít nhất)
