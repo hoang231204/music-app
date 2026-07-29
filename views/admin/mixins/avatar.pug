@@ -1,0 +1,25 @@
+//- mixin avatar(src, name, size)
+//- size: 'xs'|'sm'|'md'|'lg'|'xl'
+mixin avatar(src, name, size = 'md')
+  - 
+    var sizeClasses = {
+      'xs': 'w-6 h-6 text-xs',
+      'sm': 'w-8 h-8 text-sm',
+      'md': 'w-10 h-10 text-base',
+      'lg': 'w-14 h-14 text-lg',
+      'xl': 'w-20 h-20 text-xl'
+    }
+    var currentSize = sizeClasses[size]
+    var imageSrc = src || '/images/default-avatar.svg'
+    var initials = name ? name.substring(0, 2).toUpperCase() : '?'
+    
+  div.relative.inline-block(class=currentSize)&attributes(attributes)
+    if src
+      img(
+        src=imageSrc 
+        alt=name 
+        class="w-full h-full rounded-full object-cover ring-2 ring-white dark:ring-slate-800"
+      )
+    else
+      div(class="w-full h-full rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold ring-2 ring-white dark:ring-slate-800")
+        span= initials
