@@ -1,0 +1,20 @@
+mixin alert(config)
+  - 
+    var typeConfig = {
+      'success': { classes: 'bg-emerald-50 border-emerald-200 text-emerald-800 dark:bg-emerald-500/10 dark:border-emerald-500/20 dark:text-emerald-400', icon: 'check-circle', iconClasses: 'text-emerald-500' },
+      'error': { classes: 'bg-red-50 border-red-200 text-red-800 dark:bg-red-500/10 dark:border-red-500/20 dark:text-red-400', icon: 'x-circle', iconClasses: 'text-red-500' },
+      'warning': { classes: 'bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-500/10 dark:border-amber-500/20 dark:text-amber-400', icon: 'alert-triangle', iconClasses: 'text-amber-500' },
+      'info': { classes: 'bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-500/10 dark:border-blue-500/20 dark:text-blue-400', icon: 'info', iconClasses: 'text-blue-500' }
+    }
+    var current = typeConfig[config.type] || typeConfig['info']
+
+  div.flex.items-start.gap-3.p-4.border.rounded-xl(class=current.classes)&attributes(attributes)
+    i(data-lucide=current.icon class=current.iconClasses class="w-5 h-5 shrink-0 mt-0.5")
+    div.flex-1
+      if config.title
+        h4.text-sm.font-medium.mb-1= config.title
+      div.text-sm.opacity-90
+        | !{config.message}
+    if config.dismissible
+      button(class="opacity-50 hover:opacity-100 transition-opacity" type="button" onclick="this.closest('.flex').remove()")
+        i(data-lucide="x" class="w-4 h-4")
