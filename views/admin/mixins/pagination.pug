@@ -1,0 +1,43 @@
+//- mixin pagination(currentPage, totalPages, baseUrl)
+mixin pagination(currentPage, totalPages, baseUrl)
+  - var cp = Number(currentPage)
+  - var tp = Number(totalPages)
+  - var url = baseUrl.includes('?') ? baseUrl + '&page=' : baseUrl + '?page='
+  
+  if tp > 1
+    nav(class="flex items-center justify-center gap-1")&attributes(attributes)
+      //- Prev
+      if cp > 1
+        a(href=url + (cp - 1) title="Previous" class="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg transition-colors")
+          i(data-lucide="chevron-left" class="w-5 h-5")
+      else
+        span(class="w-10 h-10 flex items-center justify-center text-slate-400 dark:text-slate-600 opacity-50 cursor-not-allowed")
+          i(data-lucide="chevron-left" class="w-5 h-5")
+          
+      //- Page numbers (simplified logic to show ~7 items)
+      - var startPage = Math.max(1, cp - 2)
+      - var endPage = Math.min(tp, cp + 2)
+      
+      if startPage > 1
+        a(href=url + "1" class="w-10 h-10 flex items-center justify-center text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg transition-colors") 1
+        if startPage > 2
+          span(class="w-10 h-10 flex items-center justify-center text-slate-400") ...
+          
+      - for (var i = startPage; i <= endPage; i++)
+        if i === cp
+          span(class="w-10 h-10 flex items-center justify-center text-sm font-medium bg-indigo-500 text-white rounded-lg")= i
+        else
+          a(href=url + i class="w-10 h-10 flex items-center justify-center text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg transition-colors")= i
+          
+      if endPage < tp
+        if endPage < tp - 1
+          span(class="w-10 h-10 flex items-center justify-center text-slate-400") ...
+        a(href=url + tp class="w-10 h-10 flex items-center justify-center text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg transition-colors")= tp
+        
+      //- Next
+      if cp < tp
+        a(href=url + (cp + 1) title="Next" class="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg transition-colors")
+          i(data-lucide="chevron-right" class="w-5 h-5")
+      else
+        span(class="w-10 h-10 flex items-center justify-center text-slate-400 dark:text-slate-600 opacity-50 cursor-not-allowed")
+          i(data-lucide="chevron-right" class="w-5 h-5")
