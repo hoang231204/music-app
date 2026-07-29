@@ -1,0 +1,33 @@
+mixin boxChange(path, type)
+  form(
+    action=path
+    method="POST"
+    form-change-multi
+    class="flex items-center gap-2"
+  )
+    select(
+      name="type" 
+      class="bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block px-3 py-2 outline-none transition-colors"
+    )
+      option(disabled selected value="") Chọn hành động
+      if type === 'topic' || type === 'song'
+        option(value="active") Hoạt động
+        option(value="inactive") Dừng hoạt động
+        option(value="change-position") Thay đổi vị trí
+      else if type === 'account' || type === 'role' || type === 'user'
+        option(value="active") Kích hoạt
+        option(value="inactive") Vô hiệu hóa
+      option(value="delete") Xóa tất cả
+    
+    input(
+      type="text"
+      name="ids"
+      value=""
+      class="hidden"
+      readonly
+    )
+    
+    button(
+      type="submit" 
+      class="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-lg transition-colors shadow-sm shrink-0 whitespace-nowrap"
+    ) Áp dụng
