@@ -1,0 +1,10 @@
+mixin breadcrumb(items)
+  nav(aria-label="Breadcrumb")&attributes(attributes)
+    ol(class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400")
+      each item, index in items
+        li(class="flex items-center gap-2")
+          if index < items.length - 1
+            a(href=item.url class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors")= item.label
+            i(data-lucide="chevron-right" class="w-4 h-4")
+          else
+            span(aria-current="page" class="text-slate-900 dark:text-white font-medium")= item.label
