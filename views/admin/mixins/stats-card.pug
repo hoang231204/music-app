@@ -1,0 +1,28 @@
+//- mixin statsCard(config)
+//- config: {icon, label, value, trend, trendUp, color}
+mixin statsCard(config)
+  - var color = config.color || 'indigo'
+  - 
+    var colorClasses = {
+      'indigo': 'bg-indigo-50 text-indigo-500 dark:bg-indigo-500/20 dark:text-indigo-400',
+      'pink': 'bg-pink-50 text-pink-500 dark:bg-pink-500/20 dark:text-pink-400',
+      'emerald': 'bg-emerald-50 text-emerald-500 dark:bg-emerald-500/20 dark:text-emerald-400',
+      'amber': 'bg-amber-50 text-amber-500 dark:bg-amber-500/20 dark:text-amber-400'
+    }
+
+  div(class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-white/10 p-6")&attributes(attributes)
+    div.flex.items-start.justify-between
+      div
+        p(class="text-sm text-slate-500 dark:text-slate-400 font-medium mb-1")= config.label
+        h3(class="text-3xl font-bold text-slate-900 dark:text-white")= config.value
+      div(class=`w-12 h-12 rounded-full flex items-center justify-center ${colorClasses[color]}`)
+        i(data-lucide=config.icon).w-6.h-6
+    if config.trend
+      div.mt-4.flex.items-center.gap-2.text-sm
+        if config.trendUp
+          i(data-lucide="trending-up").w-4.h-4.text-emerald-500
+          span.text-emerald-500.font-medium= config.trend
+        else
+          i(data-lucide="trending-down").w-4.h-4.text-red-500
+          span.text-red-500.font-medium= config.trend
+        span(class="text-slate-500 dark:text-slate-400") vs last month
