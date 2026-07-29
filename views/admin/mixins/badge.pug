@@ -1,0 +1,14 @@
+//- mixin badge(label, variant)
+//- variant: 'primary'|'success'|'warning'|'danger'|'info' (default 'primary')
+mixin badge(label, variant = 'primary')
+  - 
+    var variantClasses = {
+      'primary': 'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400',
+      'success': 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
+      'warning': 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400',
+      'danger': 'bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400',
+      'info': 'bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400'
+    }
+    
+  span.inline-flex.items-center.px-2_5.py-1.rounded-full.text-xs.font-medium(class=variantClasses[variant])&attributes(attributes)
+    = label
