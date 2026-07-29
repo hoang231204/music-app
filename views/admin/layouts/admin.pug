@@ -10,31 +10,24 @@ block styles
 
 block body
   .flex.min-h-screen
-    //- Sidebar overlay for mobile
     #sidebarOverlay(class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden" onclick='toggleSidebar()')
-    //- Sidebar
+    
     include ../partials/sidebar
-    //- Main content area
+    
     div(class="flex-1 lg:ml-64 min-h-screen bg-slate-50 transition-all duration-300")
-      //- Admin header bar (inline, not a separate partial)
       header(class="bg-white border-b border-slate-200 px-4 sm:px-6 py-4 flex items-center justify-between sticky top-0 z-20")
         .flex.items-center.gap-4
-          //- Mobile sidebar toggle
           button#sidebarToggle(type='button' class="lg:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors" onclick='toggleSidebar()')
             i(data-lucide='menu' class="w-5 h-5 text-slate-600")
-          //- Breadcrumb area
-          nav(class="hidden sm:flex items-center gap-2 text-sm text-slate-500")
-            a(href='/admin' class="hover:text-indigo-600 transition-colors") Trang chủ
+          div(class="flex items-center gap-2 text-sm text-slate-500")
             block breadcrumbItems
         .flex.items-center.gap-3
-          //- Notifications bell
           button(class="relative p-2 rounded-lg hover:bg-slate-100 transition-colors")
             i(data-lucide='bell' class="w-5 h-5 text-slate-600")
             span(class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full")
-          //- User dropdown
           .relative
             button(class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-100 transition-colors" data-dropdown-toggle='adminUserMenu')
-              img(src='/images/default-avatar.svg' alt='Admin' class="w-8 h-8 rounded-full object-cover")
+              img(src=(locals.adminUser && locals.adminUser.avatar) ? locals.adminUser.avatar : '/images/default-avatar.svg' alt='Admin' class="w-8 h-8 rounded-full object-cover")
               span(class="hidden sm:block text-sm font-medium text-slate-700")= locals.adminUser ? locals.adminUser.name : 'Admin'
               i(data-lucide='chevron-down' class="w-4 h-4 text-slate-400")
             #adminUserMenu(class="hidden absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-1.5 z-50")
@@ -48,14 +41,13 @@ block body
               a(href='/logout' class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors")
                 i(data-lucide='log-out' class="w-4 h-4")
                 | Đăng xuất
-      //- Page content
       main(class="p-4 sm:p-6")
         block adminContent
 
 block scripts
-  script(src='/js/main.js')
-  script(src='/js/admin.js')
-  script(src='/js/form-validation.js')
-  script.
-    lucide.createIcons();
+  //- script(src='/js/main.js')
+  //- script(src='/js/admin.js')
+  //- script(src='/js/form-validation.js')
+  //- script.
+  //-   lucide.createIcons();
   block adminScripts
