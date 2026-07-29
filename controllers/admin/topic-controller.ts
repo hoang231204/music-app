@@ -23,12 +23,20 @@ export const index = async (req: Request, res: Response) => {
             const regex = createSearchRegex({ keyword: req.query.keyword });
             findQuery.title = { $regex: regex };
         }
+        //sort
+         //sort
+        const sort: Record<string, 1 | -1 | 'asc' | 'desc' | 'ascending' | 'descending'> = {};
+        if (req.query.sortBy && req.query.sortType) {
+            const sortBy = req.query.sortBy as string;
+            const sortType = req.query.sortType as 1 | -1 | 'asc' | 'desc' | 'ascending' | 'descending';
+            sort[sortBy] = sortType;
+        }
         //pagination
         const countData: number = await Topic.find(findQuery).countDocuments();
         const pagination = paginationHelper(req.query, countData);
         const limit = pagination.limitPage;
         const skip = pagination.skipPage;
-        const topics = await Topic.find(findQuery).limit(limit).skip(skip);
+        const topics = await Topic.find(findQuery).sort(sort).limit(limit).skip(skip);
         res.render("admin/pages/topics/index", {
             title: "Quản lý chủ đề",
             topics: topics,
