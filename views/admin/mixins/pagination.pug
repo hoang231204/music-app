@@ -1,11 +1,9 @@
 mixin pagination(objectPagination)
   if objectPagination.totalPages > 0
     nav(class="flex items-center gap-1.5" aria-label="Pagination")
-      
-      // Nut Trang truoc (Previous)
       if objectPagination.currentPage > 1
         button(
-          class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg transition-colors shadow-sm"
+          class="page-link inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg transition-colors shadow-sm"
           button-page=(objectPagination.currentPage - 1)
           type="button"
           title="Trang trước"
@@ -14,14 +12,12 @@ mixin pagination(objectPagination)
           span(class="hidden sm:inline") Trang trước
       else
         button(
-          class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-300 bg-slate-50 border border-slate-200 rounded-lg cursor-not-allowed"
+          class="page-link inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-300 bg-slate-50 border border-slate-200 rounded-lg cursor-not-allowed"
           disabled
           type="button"
         )
           i(data-lucide="chevron-left" class="w-4 h-4")
           span(class="hidden sm:inline") Trang trước
-
-      // Danh sach so trang
       div(class="flex items-center gap-1")
         - for (let i = 1; i <= objectPagination.totalPages; i++)
           if objectPagination.currentPage == i
@@ -36,11 +32,9 @@ mixin pagination(objectPagination)
               button-page=i
               type="button"
             ) #{i}
-
-      // Nut Trang sau (Next)
       if objectPagination.currentPage < objectPagination.totalPages 
         button(
-          class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg transition-colors shadow-sm"
+          class="page-link inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg transition-colors shadow-sm"
           button-page=(objectPagination.currentPage + 1)
           type="button"
           title="Trang tiếp"
@@ -49,7 +43,7 @@ mixin pagination(objectPagination)
           i(data-lucide="chevron-right" class="w-4 h-4")
       else
         button(
-          class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-300 bg-slate-50 border border-slate-200 rounded-lg cursor-not-allowed"
+          class="page-link inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-slate-300 bg-slate-50 border border-slate-200 rounded-lg cursor-not-allowed"
           disabled
           type="button"
         )
