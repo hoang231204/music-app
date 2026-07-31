@@ -24,7 +24,6 @@ export const index = async (req: Request, res: Response) => {
             findQuery.title = { $regex: regex };
         }
         //sort
-         //sort
         const sort: Record<string, 1 | -1 | 'asc' | 'desc' | 'ascending' | 'descending'> = {};
         if (req.query.sortBy && req.query.sortType) {
             const sortBy = req.query.sortBy as string;
@@ -41,7 +40,9 @@ export const index = async (req: Request, res: Response) => {
             title: "Quản lý chủ đề",
             topics: topics,
             keyword: req.query.keyword || "",
-            filterStatus: filterStatus
+            filterStatus: filterStatus,
+            objectPagination: pagination,
+            countData: countData
         });
     }
     catch(err){
