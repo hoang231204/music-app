@@ -66,3 +66,15 @@ export const edit = async (req: Request, res: Response)=>{
         console.log(err)
     }
 }
+//PATCH /admin/topics/edit
+export const editPatch = async (req: Request, res: Response)=>{
+    try{
+        const topicId = req.params.id;
+        await Topic.updateOne({_id: topicId}, req.body);
+        res.redirect("/admin/topics");
+    }
+    catch(err){
+        console.error(err);
+        res.redirect("/admin/topics");
+    }
+}
