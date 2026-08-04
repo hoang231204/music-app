@@ -1,8 +1,9 @@
-import express, {Express, Request, Response} from 'express'
 import dotenv from 'dotenv'
+dotenv.config()
+import express, {Express, Request, Response} from 'express'
 import * as database from './config/database-config'
 import routerAdmin from './routers/admin/index-route'
-dotenv.config()
+import methodOverride from 'method-override'
 const app: Express = express()
 const port: number | string = process.env.PORT || 3000
 // Connect to the database
@@ -15,6 +16,8 @@ app.set('views', `${__dirname}/views`)
 app.set('view engine', 'pug')
 //static file
 app.use(express.static(`${__dirname}/public`));
+//method override
+app.use(methodOverride('_method'));
 //route
 routerAdmin(app);
 
