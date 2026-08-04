@@ -78,3 +78,26 @@ export const editPatch = async (req: Request, res: Response)=>{
         res.redirect("/admin/topics");
     }
 }
+//GET /admin/topics/create
+export const create = async (req: Request, res: Response)=>{
+    try{
+        res.render("admin/pages/topics/create",{
+            pageTitle:"Tạo chủ đề mới"
+        })
+    }
+    catch(err){
+        console.error(err);
+    }
+}
+//POST /admin/topics/create
+export const createPost = async (req: Request, res: Response)=>{
+    try{
+        const newTopic = new Topic(req.body);
+        await newTopic.save();
+        res.redirect("/admin/topics");
+    }
+    catch(err){
+        console.error(err);
+        res.redirect("/admin/topics/create");
+    }
+}
