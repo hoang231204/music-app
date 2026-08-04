@@ -7,4 +7,6 @@ const router: Router = Router();
 router.get("/", topicController.index);
 router.get("/edit/:id",topicController.edit)
 router.patch("/edit/:id",upload.single("avatar"),uploadCloudinary,topicController.editPatch)
+router.get("/create",topicController.create)
+router.post("/create",upload.single("avatar"),uploadCloudinary,topicController.createPost)
 export default router;
