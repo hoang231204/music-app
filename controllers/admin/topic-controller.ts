@@ -37,7 +37,7 @@ export const index = async (req: Request, res: Response) => {
         const skip = pagination.skipPage;
         const topics = await Topic.find(findQuery).sort(sort).limit(limit).skip(skip);
         res.render("admin/pages/topics/index", {
-            title: "Quản lý chủ đề",
+            pageTitle: "Quản lý chủ đề",
             topics: topics,
             keyword: req.query.keyword || "",
             filterStatus: filterStatus,
@@ -47,5 +47,22 @@ export const index = async (req: Request, res: Response) => {
     }
     catch(err){
         console.error(err);
+    }
+}
+//GET /admin/topics/edit
+export const edit = async (req: Request, res: Response)=>{
+    try{
+        const topicId = req.params.id;
+        const topic = await Topic.findOne({_id: topicId});
+        if(!topic){
+            return res.redirect("/admin/topics");
+        }
+        res.render("admin/pages/topics/edit",{
+            pageTitle:"Chỉnh sửa chủ đề",
+            topic: topic
+        })
+    }
+    catch(err){
+        console.log(err)
     }
 }
