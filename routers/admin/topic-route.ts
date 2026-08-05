@@ -10,4 +10,5 @@ router.patch("/edit/:id",upload.single("avatar"),uploadCloudinary,topicControlle
 router.get("/create",topicController.create)
 router.post("/create",upload.single("avatar"),uploadCloudinary,topicController.createPost)
 router.patch("/change-multi",topicController.changeMulti)
+router.delete("/delete/:id",topicController.deleteTopic)
 export default router;
