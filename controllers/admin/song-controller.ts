@@ -49,3 +49,20 @@ export const index = async (req: Request, res: Response) => {
         console.error(err);
     }
 }
+//GET /admin/songs/detail/:id
+export const detail = async (req: Request, res: Response) => {
+    try {
+        const songId = req.params.id;
+        const song = await Song.findOne({ _id: songId }).populate("singer_id topic_id");
+        if (!song) {
+            return res.redirect("/admin/songs");
+        }
+        res.render("admin/pages/songs/detail", {
+            pageTitle: "Chi tiết bài hát",
+            song: song
+        });
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
