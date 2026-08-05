@@ -18,6 +18,7 @@ const filterStatusHelper = (query: QueryParams, type: FilterType): StatusItem[] 
 
   const topicStatuses: string[] = ["", "active", "inactive"];
   const songStatuses: string[] = ["", "active", "inactive"];
+  const singerStatuses: string[] = ["", "active", "inactive"];
   const roleStatuses: string[] = ["", "active", "inactive"];
   const userStatuses: string[] = ["", "active", "inactive"];
   const accountStatuses: string[] = ["", "active", "inactive"];
@@ -29,6 +30,9 @@ const filterStatusHelper = (query: QueryParams, type: FilterType): StatusItem[] 
   }
   if (type === 'song') {
     filterStatus = allStatuses.filter(item => songStatuses.includes(item.status));
+  }
+  if(type === 'singer') {
+    filterStatus = allStatuses.filter(item => singerStatuses.includes(item.status));
   }
   if (type === 'role') {
     filterStatus = allStatuses.filter(item => roleStatuses.includes(item.status));
