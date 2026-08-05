@@ -79,3 +79,33 @@ export const createPost = async (req: Request, res: Response) => {
         console.error(err);
     }
 }
+//GET /admin/singers/edit/:id
+export const edit = async (req: Request, res: Response) => {
+    try{
+        const singerId = req.params.id;
+        const singer = await Singer.findOne({_id: singerId});
+        res.render("admin/pages/singers/edit", {
+            pageTitle: "Chỉnh sửa ca sĩ",
+            singer: singer
+        });
+    }
+    catch(err){
+        console.error(err);
+    }
+}
+//PATCH /admin/singers/edit/:id
+export const editPatch = async (req: Request, res: Response) => {
+    try{
+        const singerId = req.params.id;
+        const { fullname, avatar, status } = req.body;
+        await Singer.updateOne({_id: singerId}, {
+            fullname: fullname,
+            avatar: avatar,
+            status: status
+        });
+        res.redirect("/admin/singers");
+    }
+    catch(err){
+        console.error(err);
+    }
+}
