@@ -9,4 +9,5 @@ router.get("/create", singerController.create);
 router.post("/create", upload.single("avatar"), uploadCloudinary, singerController.createPost);
 router.get("/edit/:id", singerController.edit);
 router.patch("/edit/:id", upload.single("avatar"), uploadCloudinary, singerController.editPatch);
+router.patch("/change-multi", singerController.changeMulti);
 export default router;
