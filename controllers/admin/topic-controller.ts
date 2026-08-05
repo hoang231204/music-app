@@ -101,7 +101,7 @@ export const createPost = async (req: Request, res: Response)=>{
         res.redirect("/admin/topics/create");
     }
 }
-//Patch /admin/topics/change-multi
+//PATCH /admin/topics/change-multi
 export const changeMulti = async (req: Request, res: Response)=>{
     try{
         const type = req.body.type;
@@ -118,4 +118,15 @@ export const changeMulti = async (req: Request, res: Response)=>{
     catch(err){
         console.error(err);
     }   
+}
+//DELETE /admin/topics/delete/:id
+export const deleteTopic = async (req: Request, res: Response)=>{
+    try{
+        const topicId = req.params.id;
+        await Topic.updateOne({_id: topicId}, { deleted: true });
+        res.redirect("/admin/topics");
+    }catch(err){
+        console.error(err);
+        res.redirect("/admin/topics");
+    }
 }
