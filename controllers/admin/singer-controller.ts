@@ -49,3 +49,33 @@ export const index = async (req: Request, res: Response) => {
         console.error(err);
     }
 }
+//GET /admin/singers/create
+export const create = async (req: Request, res: Response) => {
+    try {
+        res.render("admin/pages/singers/create", {
+            pageTitle: "Thêm ca sĩ mới"
+        });
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
+//POST /admin/singers/create
+export const createPost = async (req: Request, res: Response) => {
+    try{
+        const fullname = req.body.fullname;
+        const avatar = req.body.avatar;
+        const status = req.body.status;
+        const newSinger = new Singer({
+            fullname: fullname,
+            avatar: avatar,
+            status: status,
+            deleted: false
+        });
+        await newSinger.save();
+        res.redirect("/admin/singers");
+    }
+    catch(err){
+        console.error(err);
+    }
+}
