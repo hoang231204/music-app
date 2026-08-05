@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import createSearchRegex from "../../helpers/search-helper"
 import filterStatusHelper from "../../helpers/filter-status-helper";
 import paginationHelper from "../../helpers/pagination-helper";
+import Topic from "../../models/topic-model";
 //GET /admin/singers
 type taskStatus = "active" | "inactive";
 interface FindQuery {
@@ -108,4 +109,22 @@ export const editPatch = async (req: Request, res: Response) => {
     catch(err){
         console.error(err);
     }
+}
+//PATCH /admin/singers/change-multi
+export const changeMulti = async (req: Request, res: Response) => {
+   try{
+        const type = req.body.type;
+        const idschecked = req.body.ids;
+        const ids = idschecked.split(",");
+        if(type === "delete"){
+            await Singer.updateMany({_id: {$in: ids}}, {deleted: true});
+        }
+        else if(type === "active" || type === "inactive"){
+            await Singer.updateMany({_id: {$in: ids}}, {status: type});
+        }
+        res.redirect("/admin/singers");
+    }
+    catch(err){
+        console.error(err);
+    }   
 }
