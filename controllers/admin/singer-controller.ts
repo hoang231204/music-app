@@ -9,7 +9,7 @@ type taskStatus = "active" | "inactive";
 interface FindQuery {
     deleted: boolean;
     status?: taskStatus;
-    title?: { $regex: RegExp };
+    fullname?: { $regex: RegExp };
 }
 export const index = async (req: Request, res: Response) => {
     try{
@@ -22,7 +22,7 @@ export const index = async (req: Request, res: Response) => {
         //search
          if (req.query.keyword && typeof req.query.keyword === "string") {
             const regex = createSearchRegex({ keyword: req.query.keyword });
-            findQuery.title = { $regex: regex };
+            findQuery.fullname = { $regex: regex };
         }
         //sort
         const sort: Record<string, 1 | -1 | 'asc' | 'desc' | 'ascending' | 'descending'> = {};
