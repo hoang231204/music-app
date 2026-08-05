@@ -7,4 +7,6 @@ const router: Router = Router();
 router.get("/", singerController.index);
 router.get("/create", singerController.create);
 router.post("/create", upload.single("avatar"), uploadCloudinary, singerController.createPost);
+router.get("/edit/:id", singerController.edit);
+router.patch("/edit/:id", upload.single("avatar"), uploadCloudinary, singerController.editPatch);
 export default router;
