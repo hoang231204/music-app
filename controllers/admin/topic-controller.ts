@@ -101,3 +101,21 @@ export const createPost = async (req: Request, res: Response)=>{
         res.redirect("/admin/topics/create");
     }
 }
+//Patch /admin/topics/change-multi
+export const changeMulti = async (req: Request, res: Response)=>{
+    try{
+        const type = req.body.type;
+        const idschecked = req.body.ids;
+        const ids = idschecked.split(",");
+        if(type === "delete"){
+            await Topic.updateMany({_id: {$in: ids}}, {deleted: true});
+        }
+        else if(type === "active" || type === "inactive"){
+            await Topic.updateMany({_id: {$in: ids}}, {status: type});
+        }
+        res.redirect("/admin/topics");
+    }
+    catch(err){
+        console.error(err);
+    }   
+}
