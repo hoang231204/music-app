@@ -128,3 +128,14 @@ export const changeMulti = async (req: Request, res: Response) => {
         console.error(err);
     }   
 }
+//DELETE /admin/singers/delete/:id
+export const deleteSinger = async (req: Request, res: Response) => {
+    try{
+        const singerId = req.params.id;
+        await Singer.updateOne({_id: singerId}, {deleted: true});
+        res.redirect("/admin/singers");
+    }
+    catch(err){
+        console.error(err);
+    }
+}
