@@ -5,5 +5,6 @@ import { upload as uploadCloudinary } from "../../middlewares/admin/upload-cloud
 const upload = multer();
 const router: Router = Router();
 router.get("/", singerController.index);
-
+router.get("/create", singerController.create);
+router.post("/create", upload.single("avatar"), uploadCloudinary, singerController.createPost);
 export default router;
