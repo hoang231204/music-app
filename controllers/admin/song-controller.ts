@@ -111,3 +111,52 @@ export const createPost = async (req: Request, res: Response) => {
         console.error(err);
     }
 }
+//GET /admin/songs/edit/:id
+export const edit = async (req: Request, res: Response) => {
+    try {
+        const songId = req.params.id;
+        const song = await Song.findOne({ _id: songId }).populate("singer_id topic_id", "fullname title");
+        if (!song) {
+            return res.redirect("/admin/songs");
+        }
+        const singers = await Singer.find({ deleted: false }).select("fullname");
+        const topics = await Topic.find({ deleted: false }).select("title");
+        res.render("admin/pages/songs/edit", {
+            pageTitle: "Chỉnh sửa bài hát",
+            song: song,
+            singers: singers,
+            topics: topics
+        });
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
+//PATCH /admin/songs/edit/:id
+export const editPatch = async (req: Request, res: Response) => {
+    try {
+        const songId = req.params.id;
+        const title = req.body.title;
+        const description = req.body.description;
+        const lyrics = req.body.lyrics;
+        const status = req.body.status;
+        const singer_id = req.body.singerId;
+        const topic_id = req.body.topicId;
+        const avatar = req.body.avatar;
+        const audio = req.body.audio;
+        await Song.updateOne({ _id: songId }, {
+            title: title,
+            singer_id: singer_id,
+            topic_id: topic_id,
+            description: description,
+            lyrics: lyrics,
+            avatar: avatar,
+            audio: audio,
+            status: status
+        });
+        res.redirect("/admin/songs");
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
