@@ -1,14 +1,19 @@
 import {Router} from "express";
 import multer from "multer"
 import * as singerController from "../../controllers/admin/singer-controller";
-import { upload as uploadCloudinary } from "../../middlewares/admin/upload-cloudinary";
-const upload = multer();
+import * as uploadCloudinary from "../../middlewares/admin/upload-cloudinary";
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 20 * 1024 * 1024 
+  }
+});
 const router: Router = Router();
 router.get("/", singerController.index);
 router.get("/create", singerController.create);
-router.post("/create", upload.single("avatar"), uploadCloudinary, singerController.createPost);
+router.post("/create", upload.single("avatar"), uploadCloudinary.uploadSingle, singerController.createPost);
 router.get("/edit/:id", singerController.edit);
-router.patch("/edit/:id", upload.single("avatar"), uploadCloudinary, singerController.editPatch);
+router.patch("/edit/:id", upload.single("avatar"), uploadCloudinary.uploadSingle, singerController.editPatch);
 router.patch("/change-multi", singerController.changeMulti);
 router.delete("/delete/:id", singerController.deleteSinger);
 export default router;
