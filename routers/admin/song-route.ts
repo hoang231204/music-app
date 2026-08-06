@@ -21,4 +21,5 @@ router.patch("/edit/:id", upload.fields([
   { name: "avatar", maxCount: 1 },
   { name: "audio", maxCount: 1 }
 ]), uploadCloudinary.uploadFields, songController.editPatch);
+router.patch("/change-multi",songController.changeMulti);
 export default router;
