@@ -160,3 +160,21 @@ export const editPatch = async (req: Request, res: Response) => {
         console.error(err);
     }
 }
+//PATCH /admin/songs/change-multi
+export const changeMulti = async (req: Request, res: Response) => {
+    try{
+        const type = req.body.type;
+        const idschecked = req.body.ids;
+        const ids = idschecked.split(",");
+        if(type === "delete"){
+            await Song.updateMany({_id: {$in: ids}}, {deleted: true});
+        }
+        else if(type === "active" || type === "inactive"){
+            await Song.updateMany({_id: {$in: ids}}, {status: type});
+        }
+        res.redirect("/admin/songs");
+    }
+    catch(err){
+        console.error(err);
+    }   
+}
