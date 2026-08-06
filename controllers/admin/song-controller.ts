@@ -178,3 +178,14 @@ export const changeMulti = async (req: Request, res: Response) => {
         console.error(err);
     }   
 }
+//DELETE /admin/songs/delete/:id
+export const deleteSong = async (req: Request, res: Response) => {
+    try{
+        const songId = req.params.id;
+        await Song.updateOne({_id: songId}, {deleted: true});
+        res.redirect("/admin/songs");
+    }
+    catch(err){
+        console.error(err);
+    }
+}
