@@ -16,4 +16,9 @@ router.post("/create", upload.fields([
   { name: "avatar", maxCount: 1 },
   { name: "audio", maxCount: 1 }
 ]), uploadCloudinary.uploadFields, songController.createPost);
+router.get("/edit/:id", songController.edit);
+router.patch("/edit/:id", upload.fields([
+  { name: "avatar", maxCount: 1 },
+  { name: "audio", maxCount: 1 }
+]), uploadCloudinary.uploadFields, songController.editPatch);
 export default router;
