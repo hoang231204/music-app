@@ -1,4 +1,6 @@
 import Song from "../../models/song-model";
+import Topic from "../../models/topic-model";
+import Singer from "../../models/singer-model";
 import { Request, Response } from "express";
 import createSearchRegex from "../../helpers/search-helper"
 import filterStatusHelper from "../../helpers/filter-status-helper";
@@ -11,7 +13,7 @@ interface FindQuery {
     title?: { $regex: RegExp };
 }
 export const index = async (req: Request, res: Response) => {
-    try{
+    try {
         const findQuery: FindQuery = { deleted: false };
         //filter by status
         if (req.query.status && typeof req.query.status === "string") {
@@ -19,7 +21,7 @@ export const index = async (req: Request, res: Response) => {
         }
         const filterStatus = filterStatusHelper(req.query, "song");
         //search
-         if (req.query.keyword && typeof req.query.keyword === "string") {
+        if (req.query.keyword && typeof req.query.keyword === "string") {
             const regex = createSearchRegex({ keyword: req.query.keyword });
             findQuery.title = { $regex: regex };
         }
@@ -35,7 +37,7 @@ export const index = async (req: Request, res: Response) => {
         const pagination = paginationHelper(req.query, countData);
         const limit = pagination.limitPage;
         const skip = pagination.skipPage;
-        const songs = await Song.find(findQuery).sort(sort).limit(limit).skip(skip);
+        const songs = await Song.find(findQuery).sort(sort).limit(limit).skip(skip).populate("singer_id","fullname");
         res.render("admin/pages/songs/index", {
             pageTitle: "Quản lý bài hát",
             songs: songs,
@@ -45,7 +47,7 @@ export const index = async (req: Request, res: Response) => {
             countData: countData
         });
     }
-    catch(err){
+    catch (err) {
         console.error(err);
     }
 }
@@ -53,7 +55,7 @@ export const index = async (req: Request, res: Response) => {
 export const detail = async (req: Request, res: Response) => {
     try {
         const songId = req.params.id;
-        const song = await Song.findOne({ _id: songId }).populate("singer_id topic_id");
+        const song = await Song.findOne({ _id: songId }).populate("singer_id topic_id", "fullname title");
         if (!song) {
             return res.redirect("/admin/songs");
         }
@@ -61,6 +63,49 @@ export const detail = async (req: Request, res: Response) => {
             pageTitle: "Chi tiết bài hát",
             song: song
         });
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
+//GET /admin/songs/create
+export const create = async (req: Request, res: Response) => {
+    try {
+        const singers = await Singer.find({ deleted: false }).select("fullname");
+        const topics = await Topic.find({ deleted: false }).select("title");
+        res.render("admin/pages/songs/create", {
+            pageTitle: "Thêm bài hát mới",
+            singers: singers,
+            topics: topics
+        });
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
+//POST /admin/songs/create
+export const createPost = async (req: Request, res: Response) => {
+    try{
+        const title = req.body.title;
+        const description = req.body.description;
+        const lyrics = req.body.lyrics;
+        const status = req.body.status;
+        const singer_id = req.body.singerId
+        const topic_id = req.body.topicId;
+        const avatar = req.body.avatar;
+        const audio = req.body.audio;
+        const newSong = new Song({
+            title: title,
+            singer_id: singer_id,
+            topic_id: topic_id,
+            description: description,
+            lyrics: lyrics,
+            avatar: avatar,
+            audio: audio,
+            status: status  
+        });
+        await newSong.save();
+        res.redirect("/admin/songs");
     }
     catch (err) {
         console.error(err);
