@@ -2,5 +2,11 @@ import {Router} from "express";
 import * as roleController from "../../controllers/admin/role-controller";
 const router: Router = Router();
 router.get("/", roleController.index);
-
+router.get("/create", roleController.create);
+router.post("/create", roleController.createPost);
+router.get("/edit/:id", roleController.edit);
+router.patch("/edit/:id", roleController.editPatch);
+router.delete("/delete/:id", roleController.deleteRole);
+router.get("/permissions", roleController.permission);
+router.patch("/permissions", roleController.permissionPatch);
 export default router;
