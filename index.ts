@@ -4,6 +4,7 @@ import express, {Express, Request, Response} from 'express'
 import * as database from './config/database-config'
 import routerAdmin from './routers/admin/index-route'
 import methodOverride from 'method-override'
+import cookieParser from 'cookie-parser'
 const app: Express = express()
 const port: number | string = process.env.PORT || 3000
 // Connect to the database
@@ -18,6 +19,8 @@ app.set('view engine', 'pug')
 app.use(express.static(`${__dirname}/public`));
 //method override
 app.use(methodOverride('_method'));
+//cookie parser
+app.use(cookieParser());
 //route
 routerAdmin(app);
 
