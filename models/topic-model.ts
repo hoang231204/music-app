@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-
+import slugify from "slugify";
 export interface ITopic extends Document {
   title?: string;
   avatar?: string;
@@ -17,7 +17,11 @@ const topicSchema = new Schema<ITopic>({
   avatar: { type: String },
   description: { type: String },
   status: { type: String },
-  slug: { type: String },
+  slug: {
+    type: String,
+    unique: true,
+    index: true,
+  },
   deleted: {
     type: Boolean,
     default: false,
