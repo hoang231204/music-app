@@ -3,6 +3,7 @@ dotenv.config()
 import express, {Express, Request, Response} from 'express'
 import * as database from './config/database-config'
 import routerAdmin from './routers/admin/index-route'
+import routerClient from './routers/client/index-route'
 import methodOverride from 'method-override'
 import cookieParser from 'cookie-parser'
 const app: Express = express()
@@ -23,6 +24,7 @@ app.use(methodOverride('_method'));
 app.use(cookieParser());
 //route
 routerAdmin(app);
+routerClient(app);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
