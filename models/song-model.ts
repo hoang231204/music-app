@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import slug from "slugify";
+import { slugPlugin } from "../helpers/slugify";
 export interface ISong extends Document {
   title?: string;
   avatar?: string;
@@ -52,6 +52,6 @@ const songSchema = new Schema<ISong>({
 }, {
   timestamps: true,
 });
-
+songSchema.plugin(slugPlugin, { from: "title", to: "slug" });
 const Song = mongoose.model<ISong>("Song", songSchema, "songs");
 export default Song;

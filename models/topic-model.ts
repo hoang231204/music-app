@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
-import slugify from "slugify";
+import { slugPlugin } from "../helpers/slugify";
+
 export interface ITopic extends Document {
   title?: string;
   avatar?: string;
@@ -12,24 +13,28 @@ export interface ITopic extends Document {
   updatedAt: Date;
 }
 
-const topicSchema = new Schema<ITopic>({
-  title: { type: String },
-  avatar: { type: String },
-  description: { type: String },
-  status: { type: String },
-  slug: {
-    type: String,
-    unique: true,
-    index: true,
+const topicSchema = new Schema<ITopic>(
+  {
+    title: { type: String },
+    avatar: { type: String },
+    description: { type: String },
+    status: { type: String },
+    slug: {
+      type: String,
+      unique: true,
+      index: true,
+    },
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
+    deletedAt: { type: Date },
   },
-  deleted: {
-    type: Boolean,
-    default: false,
-  },
-  deletedAt: { type: Date },
-}, {
-  timestamps: true,
-});
+  {
+    timestamps: true,
+  }
+);
+topicSchema.plugin(slugPlugin, { from: "title", to: "slug" });
 
 const Topic = mongoose.model<ITopic>("Topic", topicSchema, "topics");
 export default Topic;

@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import slug from "slugify";
+import { slugPlugin } from "../helpers/slugify";
 export interface ISinger extends Document {
   fullname?: string;
   avatar?: string;
@@ -20,10 +20,11 @@ const singerSchema = new Schema<ISinger>({
     unique: true,
     index: true,
   },
+  deleted: { type: Boolean, default: false },
   deletedAt: { type: Date },
 }, {
   timestamps: true,
 });
-
+singerSchema.plugin(slugPlugin, { from: "fullname", to: "slug" });
 const Singer = mongoose.model<ISinger>("Singer", singerSchema, "singers");
 export default Singer;
