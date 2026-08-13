@@ -8,6 +8,7 @@ export interface ITopic extends Document {
   status?: string;
   slug?: string;
   deleted: boolean;
+  isFeatured?: boolean;
   deletedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -24,6 +25,7 @@ const topicSchema = new Schema<ITopic>(
       unique: true,
       index: true,
     },
+    isFeatured: { type: Boolean, default: false },
     deleted: {
       type: Boolean,
       default: false,

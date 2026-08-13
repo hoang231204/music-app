@@ -53,5 +53,7 @@ const songSchema = new Schema<ISong>({
   timestamps: true,
 });
 songSchema.plugin(slugPlugin, { from: "title", to: "slug" });
+songSchema.index({ status: 1, createdAt: -1 });
+songSchema.index({ status: 1, listen: -1, likes: -1 });
 const Song = mongoose.model<ISong>("Song", songSchema, "songs");
 export default Song;

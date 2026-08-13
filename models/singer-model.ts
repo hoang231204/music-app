@@ -5,6 +5,7 @@ export interface ISinger extends Document {
   avatar?: string;
   status?: string;
   slug?: string;
+  isFeatured?: boolean;
   deleted: boolean;
   deletedAt?: Date;
   createdAt: Date;
@@ -20,11 +21,13 @@ const singerSchema = new Schema<ISinger>({
     unique: true,
     index: true,
   },
+  isFeatured: { type: Boolean, default: false },
   deleted: { type: Boolean, default: false },
   deletedAt: { type: Date },
 }, {
   timestamps: true,
 });
 singerSchema.plugin(slugPlugin, { from: "fullname", to: "slug" });
+singerSchema.index({ status: 1, isFeatured: 1 });
 const Singer = mongoose.model<ISinger>("Singer", singerSchema, "singers");
 export default Singer;
