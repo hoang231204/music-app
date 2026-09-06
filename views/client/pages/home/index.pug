@@ -1,0 +1,81 @@
+extends ../../layouts/client
+include ../../mixins/card-song
+include ../../mixins/card-topic
+include ../../mixins/card-singer
+include ../../mixins/search-bar
+
+block pageTitle
+  | #{pageTitle}
+
+block clientContent
+  //- Hero Section
+  section(class="relative overflow-hidden py-20 lg:py-32")
+    //- Background Gradient and Animation
+    div(class="absolute inset-0 bg-gradient-to-br from-indigo-900/50 via-black to-purple-900/30 z-0")
+    div(class="absolute inset-0 opacity-30 z-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.3) 0%, transparent 50%);")
+    
+    div(class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center")
+      h1(class="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 mb-6") Khám Phá Âm Nhạc Của Bạn
+      p(class="text-lg sm:text-xl text-slate-300 mb-10 max-w-2xl mx-auto") Giai điệu bất tận, trải nghiệm không giới hạn. Tìm kiếm bài hát, nghệ sĩ và chủ đề bạn yêu thích.
+      
+      div(class="max-w-xl mx-auto mb-12")
+        form(action="/search" method="GET")
+          div(class="relative group")
+            div(class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none")
+              i(data-lucide="search" class="w-6 h-6 text-slate-400 group-focus-within:text-indigo-400 transition-colors")
+            input(type="text" name="keyword" placeholder="Tìm kiếm bài hát, ca sĩ..." class="w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-full py-4 pl-12 pr-6 text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition-all text-lg shadow-2xl")
+            button(type="submit" class="absolute inset-y-1.5 right-1.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-full px-6 font-medium transition-colors") Tìm kiếm
+            
+      div(class="flex flex-col sm:flex-row items-center justify-center gap-4")
+        a(href="/topics" class="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-xl px-8 py-4 shadow-lg shadow-indigo-500/25 transition-all duration-300 inline-flex items-center justify-center gap-2")
+          i(data-lucide="compass" class="w-5 h-5")
+          | Khám phá ngay
+        a(href="/songs" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl px-8 py-4 backdrop-blur-sm border border-white/10 transition-all inline-flex items-center justify-center gap-2")
+          i(data-lucide="music" class="w-5 h-5")
+          | Bài hát mới
+
+  //- Featured Topics
+  section(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12")
+    div(class="flex items-center justify-between mb-8")
+      div
+        h2(class="text-2xl sm:text-3xl font-bold text-white mb-2") Chủ Đề Nổi Bật
+        p(class="text-slate-400") Những chủ đề âm nhạc được yêu thích nhất
+      a(href="/topics" class="text-indigo-400 hover:text-indigo-300 transition-colors inline-flex items-center gap-1 font-medium") Xem tất cả 
+        i(data-lucide="chevron-right" class="w-4 h-4")
+    div(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6")
+      each topic in featuredTopics
+        +cardTopic(topic)
+
+  //- Trending Songs
+  section(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12")
+    div(class="flex items-center justify-between mb-8")
+      div
+        h2(class="text-2xl sm:text-3xl font-bold text-white mb-2") Bài Hát Thịnh Hành
+        p(class="text-slate-400") Cập nhật những bài hát hot nhất hiện nay
+      a(href="/songs" class="text-indigo-400 hover:text-indigo-300 transition-colors inline-flex items-center gap-1 font-medium") Xem tất cả 
+        i(data-lucide="chevron-right" class="w-4 h-4")
+    div(class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6")
+      each song in trendingSongs
+        +cardSong(song)
+
+  //- New Releases
+  section(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12")
+    div(class="flex items-center justify-between mb-8")
+      div
+        h2(class="text-2xl sm:text-3xl font-bold text-white mb-2") Mới Phát Hành
+        p(class="text-slate-400") Thưởng thức những giai điệu mới nhất
+      a(href="/songs" class="text-indigo-400 hover:text-indigo-300 transition-colors inline-flex items-center gap-1 font-medium") Xem tất cả 
+        i(data-lucide="chevron-right" class="w-4 h-4")
+    div(class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6")
+      each song in newReleases
+        +cardSong(song)
+
+  //- Popular Singers
+  section(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-12")
+    div(class="flex items-center justify-between mb-8")
+      div
+        h2(class="text-2xl sm:text-3xl font-bold text-white mb-2") Ca Sĩ Nổi Bật
+        p(class="text-slate-400") Những giọng ca hàng đầu
+    div(class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6")
+      each singer in featuredSingers
+        +cardSinger(singer)
