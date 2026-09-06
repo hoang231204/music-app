@@ -1,0 +1,87 @@
+extends ../../layouts/admin
+include ../../mixins/breadcrumb
+include ../../mixins/badge
+include ../../mixins/avatar
+include ../../mixins/stats-card
+
+block pageTitle
+  title Chi tiết người dùng | Admin
+
+block breadcrumbItems
+  +breadcrumb([
+    {label: 'Trang chủ', url: '/admin/dashboard'},
+    {label: 'Người dùng', url: '/admin/users'},
+    {label: 'Chi tiết', url: ''}
+  ])
+
+block adminContent
+  - 
+    var user = {
+      id: 2,
+      name: 'Trần Thị B',
+      email: 'ttb@example.com',
+      avatar: 'https://i.pravatar.cc/150?u=u2',
+      registeredAt: '2023-10-23',
+      status: 'active',
+      favoritesCount: 42,
+      totalPlays: 350
+    }
+    var favorites = [
+      { id: 1, title: 'Tình Yêu Khủng Long', singer: 'Fay', addedAt: '2023-10-25 10:30' },
+      { id: 2, title: 'Nơi Này Có Anh', singer: 'Sơn Tùng M-TP', addedAt: '2023-10-24 15:45' },
+      { id: 3, title: 'Chắc Ai Đó Sẽ Về', singer: 'Sơn Tùng M-TP', addedAt: '2023-10-23 20:15' },
+      { id: 5, title: 'Ánh Nắng Của Anh', singer: 'Đức Phúc', addedAt: '2023-10-23 20:10' },
+      { id: 7, title: 'Hơn Cả Yêu', singer: 'Đức Phúc', addedAt: '2023-10-22 09:20' }
+    ]
+
+  div(class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4")
+    div
+      h1(class="text-2xl font-bold text-slate-900") Chi tiết người dùng
+      p(class="text-slate-500 mt-1 text-sm") Xem thông tin và hoạt động của người dùng
+
+  div(class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6")
+    //- Thông tin cá nhân
+    div(class="lg:col-span-1 space-y-6")
+      div(class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden")
+        div(class="p-6 flex flex-col items-center border-b border-slate-100 bg-slate-50/50")
+          +avatar(user.avatar, user.name, 'xl')
+          h2(class="text-lg font-bold text-slate-900 mt-4 mb-1")= user.name
+          p(class="text-sm text-slate-500 mb-3")= user.email
+          if user.status === 'active'
+            +badge('Đang hoạt động', 'success')
+          else if user.status === 'banned'
+            +badge('Bị khóa', 'danger')
+          else
+            +badge('Chưa xác thực', 'warning')
+            
+        div(class="p-6 space-y-4")
+          div(class="flex justify-between items-center pb-3 border-b border-slate-100")
+            span(class="text-sm text-slate-500") ID Người dùng
+            span(class="text-sm font-medium text-slate-900") #US-#{user.id}
+          div(class="flex justify-between items-center pb-3 border-b border-slate-100")
+            span(class="text-sm text-slate-500") Ngày tham gia
+            span(class="text-sm font-medium text-slate-900")= user.registeredAt
+          
+    //- Thống kê và danh sách yêu thích
+    div(class="lg:col-span-2 space-y-6")
+      div(class="grid grid-cols-1 sm:grid-cols-2 gap-4")
+        +statsCard({icon: 'heart', label: 'Bài hát yêu thích', value: user.favoritesCount, trend: '', trendUp: true, color: 'text-red-500 bg-red-50'})
+        +statsCard({icon: 'headphones', label: 'Tổng lượt nghe', value: user.totalPlays, trend: '', trendUp: true, color: 'text-indigo-500 bg-indigo-50'})
+
+      div(class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden")
+        div(class="px-6 py-4 border-b border-slate-200 flex items-center justify-between")
+          h3(class="text-lg font-semibold text-slate-900") Danh sách bài hát yêu thích
+          
+        div(class="overflow-x-auto")
+          table(class="w-full text-left border-collapse")
+            thead
+              tr
+                th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Bài hát
+                th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Ca sĩ
+                th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Ngày thêm
+            tbody
+              each item in favorites
+                tr(class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+                  td(class="px-6 py-4 font-medium text-slate-900")= item.title
+                  td(class="px-6 py-4 text-sm text-slate-600")= item.singer
+                  td(class="px-6 py-4 text-sm text-slate-500")= item.addedAt
