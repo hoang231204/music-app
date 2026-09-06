@@ -1,0 +1,87 @@
+extends ../../layouts/admin
+include ../../mixins/breadcrumb
+include ../../mixins/badge
+include ../../mixins/modal
+
+block pageTitle
+ | #{pageTitle}
+
+block breadcrumbItems
+  +breadcrumb([
+    {label: 'Trang chủ', url: '/admin/dashboard'},
+    {label: 'Bài hát', url: '/admin/songs'},
+    {label: 'Chi tiết', url: ''}
+  ])
+
+block adminContent
+  div(class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6")
+    div
+      h1(class="text-2xl font-bold text-slate-900") Chi tiết bài hát
+      p(class="text-slate-500 mt-1 text-sm") Xem thông tin chi tiết và thống kê của bài hát
+    div(class="flex items-center gap-3")
+      a(href=`/admin/songs/edit/${song._id}` class="inline-flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-lg px-4 py-2.5 text-sm shadow-sm transition-colors")
+        i(data-lucide="edit").w-4.h-4
+        | Chỉnh sửa
+      button(type="button" class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Xóa" data-delete-url=`/admin/songs/delete/${song._id}`)
+        i(data-lucide="trash-2" class="w-4 h-4")
+        | Xóa
+
+  div(class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6")
+    //- Left column
+    div(class="lg:col-span-1 space-y-6")
+      div(class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden")
+        img(src=song.avatar alt=song.title class="w-full aspect-square object-cover")
+        div(class="p-6")
+          h2(class="text-xl font-bold text-slate-900 mb-1")= song.title
+          p(class="text-slate-500 mb-4")= song.singer_id.fullname
+          
+          audio(controls class="w-full mb-4 h-10")
+            source(src=song.audio type="audio/mpeg")
+            | Trình duyệt của bạn không hỗ trợ thẻ audio.
+            
+    //- Right column
+    div(class="lg:col-span-2 space-y-6")
+      div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6")
+        h3(class="text-lg font-semibold text-slate-900 mb-4 border-b border-slate-100 pb-2") Thông tin chung
+        
+        div(class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6")
+          div
+            span(class="block text-sm font-medium text-slate-500 mb-1") Trạng thái
+            if song.status === 'active'
+              +badge('Hoạt động', 'success')
+            else
+              +badge('Dừng', 'danger')
+          div
+            span(class="block text-sm font-medium text-slate-500 mb-1") Chủ đề
+            span(class="text-sm text-slate-900")= song.topic_id.title
+          div
+            span(class="block text-sm font-medium text-slate-500 mb-1") Ngày tạo
+            span(class="text-sm text-slate-900")= song.createdAt
+          div
+            span(class="block text-sm font-medium text-slate-500 mb-1") Lượt thích
+            span(class="text-sm text-slate-900")= song.like.toLocaleString()
+          div
+            span(class="block text-sm font-medium text-slate-500 mb-1") Lượt nghe
+            span(class="text-sm text-slate-900")= song.listen.toLocaleString()
+            
+      if song.description
+        div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6")
+          h3(class="text-lg font-semibold text-slate-900 mb-4 border-b border-slate-100 pb-2") Mô tả
+          p(class="text-sm text-slate-700 whitespace-pre-line")= song.description
+            
+      if song.lyrics
+        div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6")
+          h3(class="text-lg font-semibold text-slate-900 mb-4 border-b border-slate-100 pb-2") Lời bài hát
+          pre(class="text-sm text-slate-700 whitespace-pre-line font-sans")= song.lyrics
+
+  +modal({
+    id: 'delete-confirm',
+    title: 'Xóa bài hát',
+    body: 'Bạn có chắc chắn muốn xóa bài hát này không? Hành động này sẽ xóa cả file âm thanh.',
+    cancelLabel: 'Hủy',
+    confirmVariant: 'danger'
+  })
+    form(id="delete-form" method="POST" action="")
+      input(type="hidden" name="_method" value="DELETE")
+      button(type="submit" class="px-4 py-2 rounded-lg font-medium transition-colors bg-red-500 hover:bg-red-600 text-white") Xác nhận
+

@@ -1,0 +1,105 @@
+extends ../../layouts/admin
+include ../../mixins/breadcrumb
+include ../../mixins/form-controls
+include ../../mixins/button
+
+block pageTitle
+  | #{pageTitle}
+
+block breadcrumbItems
+  +breadcrumb([
+    {label: 'Trang chủ', url: '/admin/dashboard'},
+    {label: 'Bài hát', url: '/admin/songs'},
+    {label: 'Chỉnh sửa', url: ''}
+  ])
+
+block adminContent
+  div(class="mb-6")
+    h1(class="text-2xl font-bold text-slate-900") Chỉnh sửa bài hát
+    p(class="text-slate-500 mt-1 text-sm") Cập nhật thông tin bài hát
+
+  form(action=`/admin/songs/edit/${song._id}?_method=PATCH` method="POST" enctype="multipart/form-data" class="validate-form")
+    div(class="grid grid-cols-1 lg:grid-cols-3 gap-6")
+      
+      div(class="lg:col-span-2 space-y-6")
+        div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6")
+          h2(class="text-lg font-semibold text-slate-900 mb-4") Thông tin cơ bản
+          div(class="space-y-4")
+            +formInput({
+              name: 'title',
+              label: 'Tiêu đề bài hát',
+              type: 'text',
+              value: song.title,
+              required: true
+            })
+            
+            div(class="grid grid-cols-1 sm:grid-cols-2 gap-4")
+              +formSelect({
+                name: 'singerId',
+                label: 'Ca sĩ',
+                options: singers,
+                selected: song.singer_id,
+                required: true
+              })
+              
+              +formSelect({
+                name: 'topicId',
+                label: 'Chủ đề',
+                options: topics,
+                selected: song.topic_id,
+                required: true
+              })
+              
+            +formTextarea({
+              name: 'description',
+              label: 'Mô tả ngắn',
+              value: song.description,
+              rows: 3
+            })
+            
+        div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6")
+          h2(class="text-lg font-semibold text-slate-900 mb-4") Lời bài hát
+          +formTextarea({
+            name: 'lyrics',
+            label: 'Nội dung lời bài hát',
+            value: song.lyrics,
+            rows: 10
+          })
+
+      div(class="space-y-6")
+        div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6")
+          h2(class="text-lg font-semibold text-slate-900 mb-4") Media & Trạng thái
+          div(class="space-y-4")
+            +formFileUpload({
+              name: 'audio',
+              label: 'File âm thanh (Tải lên file mới để thay thế)',
+              accept: 'audio/*',
+              previewUrl: song.audio,
+              helpText: 'Định dạng: MP3, WAV, AAC. Tối đa 20MB.',
+              type: 'audio'
+            })
+            
+            +formFileUpload({
+              name: 'avatar',
+              label: 'Ảnh bìa',
+              accept: 'image/*',
+              previewUrl: song.avatar,
+              helpText: 'Tỉ lệ 1:1. Tối đa 5MB.'
+            })
+            
+            +formSelect({
+              name: 'status',
+              label: 'Trạng thái',
+              options: [
+                {value: 'active', text: 'Hoạt động'},
+                {value: 'inactive', text: 'Dừng hoạt động'}
+              ],
+              selected: song.status
+            })
+            
+        div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6")
+          div(class="flex flex-col gap-3")
+            button(type="submit" class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-lg px-4 py-2.5 text-sm shadow-sm flex items-center justify-center gap-2 transition-colors")
+              i(data-lucide="save").w-4.h-4
+              | Cập nhật bài hát
+            a(href="/admin/songs" class="w-full border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium rounded-lg px-4 py-2.5 text-sm text-center transition-colors") Hủy bỏ

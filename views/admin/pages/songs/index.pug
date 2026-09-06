@@ -1,0 +1,90 @@
+extends ../../layouts/admin
+include ../../mixins/button
+include ../../mixins/pagination
+include ../../mixins/filter-status
+include ../../mixins/sort
+include ../../mixins/change-multi
+include ../../mixins/modal
+include ../../mixins/badge
+include ../../mixins/search-bar
+include ../../mixins/breadcrumb
+
+block pageTitle
+  | #{pageTitle}
+block breadcrumbItems
+  +breadcrumb([
+    {label: 'Trang chủ', url: '/admin/dashboard'},
+    {label: 'Bài hát', url: '/admin/songs'}
+  ])
+
+block adminContent
+  div(class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6")
+    div
+      h1(class="text-2xl font-bold text-slate-900") Quản lý bài hát
+      p(class="text-slate-500 mt-1 text-sm") Xem, thêm, sửa, xóa các bài hát
+    div(class="flex items-center gap-3")
+      a(href="/admin/songs/create" class="inline-flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-lg px-4 py-2.5 text-sm shadow-sm transition-colors")
+        i(data-lucide="plus" class="w-4 h-4")
+        | Thêm mới
+
+  div(class="bg-white rounded-xl shadow-sm border border-slate-200")
+    div(class="p-4 border-b border-slate-200 flex flex-col xl:flex-row xl:items-center justify-between gap-4 bg-slate-50/50 rounded-t-xl")
+      +filterStatus(filterStatus)
+      div(class="flex flex-wrap items-center gap-3 w-full xl:w-auto justify-end")
+        +boxChange("/admin/songs/change-multi?_method=PATCH", "song")
+        +boxSort()
+        div(class="w-full sm:w-auto sm:max-w-xs")
+          +searchBar('Tìm kiếm bài hát...', '', '')
+        
+    div(class="overflow-x-auto")
+      table(class="w-full text-left border-collapse min-w-[900px]")
+        thead
+          tr
+            th(class="w-12 px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50")
+              input(type="checkbox" class="rounded border-slate-300 text-indigo-500 focus:ring-indigo-500" checkbox-all)
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50 w-20") Bìa
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Tên bài hát
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Ca sĩ
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Lượt thích
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Ngày tạo
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Trạng thái
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50 text-right") Hành động
+        tbody
+          each song in songs
+            tr(class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-4")
+                input(type="checkbox" class="rounded border-slate-300 text-indigo-500 focus:ring-indigo-500" checkbox-item value=song.id)
+              td(class="px-6 py-4")
+                img(src=song.avatar alt=song.title class="w-10 h-10 rounded object-cover border border-slate-200")
+              td(class="px-6 py-4 font-medium text-slate-900")= song.title
+              td(class="px-6 py-4 text-sm text-slate-600")= song.singer_id.fullname
+              td(class="px-6 py-4 text-sm text-slate-700")= song.like
+              td(class="px-6 py-4 text-sm text-slate-500")= song.createdAt
+              td(class="px-6 py-4")
+                if song.status === 'active'
+                  +badge('Hoạt động', 'success')
+                else
+                  +badge('Dừng', 'danger')
+              td(class="px-6 py-4 text-right")
+                div(class="flex items-center justify-end gap-2")
+                  a(href=`/admin/songs/detail/${song._id}` class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Chi tiết")
+                    i(data-lucide="eye").w-4.h-4
+                  a(href=`/admin/songs/edit/${song._id}` class="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Sửa")
+                    i(data-lucide="edit").w-4.h-4
+                  button(type="button" class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Xóa" data-delete-url=`/admin/songs/delete/${song.id}`)
+                    i(data-lucide="trash-2" class="w-4 h-4")
+
+    div(class="p-4 border-t border-slate-200 flex items-center justify-between")
+      span(class="text-sm text-slate-500") Tổng số bài hát: #{countData}
+      +pagination(objectPagination)
+
+  +modal({
+    id: 'delete-confirm',
+    title: 'Xóa bài hát',
+    body: 'Bạn có chắc chắn muốn xóa bài hát này không? Hành động này sẽ xóa cả file âm thanh.',
+    cancelLabel: 'Hủy',
+    confirmVariant: 'danger'
+  })
+    form(id="delete-form" method="POST" action="")
+      input(type="hidden" name="_method" value="DELETE")
+      button(type="submit" class="px-4 py-2 rounded-lg font-medium transition-colors bg-red-500 hover:bg-red-600 text-white") Xác nhận
