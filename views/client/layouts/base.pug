@@ -1,0 +1,43 @@
+doctype html
+html(lang='vi')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name='description' content='Music App - Nghe nhạc trực tuyến miễn phí')
+    title
+      block title
+        | Music App
+    //- Google Fonts
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin)
+    link(href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap' rel='stylesheet')
+    //- Tailwind CSS CDN
+    script(src='https://cdn.tailwindcss.com')
+    script.
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: { DEFAULT: '#6366f1', dark: '#4f46e5', light: '#818cf8', lighter: '#c7d2fe', '50': '#eef2ff' },
+              accent: { DEFAULT: '#ec4899', dark: '#db2777', light: '#f472b6' },
+              surface: { DEFAULT: '#1e1b4b', light: '#312e81', lighter: '#3730a3' },
+              'dark-bg': { DEFAULT: '#0f0d2e', light: '#1a1744', lighter: '#252050' }
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+            }
+          }
+        }
+      }
+    //- Custom CSS
+    link(rel='stylesheet' href='/client/css/main.css')
+    block styles
+  body.font-sans.antialiased
+    block body
+    //- Toast container
+    div#toast-container(class="fixed top-4 right-4 z-[100] flex flex-col gap-3 pointer-events-none")
+    block scripts
+    //- Lucide Icons
+    script(src='https://unpkg.com/lucide@latest')
+    script.
+      lucide.createIcons();
