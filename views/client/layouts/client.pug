@@ -1,0 +1,33 @@
+extends ./base
+include ../mixins/show-alert
+
+block title
+  block pageTitle
+    | Music App
+
+block styles
+  block clientStyles
+
+block body
+  .min-h-screen.text-white(class='bg-gradient-to-b from-[#0f0d2e] via-[#1a1744] to-[#0f0d2e]')
+    div(class="fixed top-4 left-4 right-4 z-[100] mx-auto max-w-xl")
+      +showAlert()
+    //- Client header
+    include ../partials/header
+    //- Main content with bottom padding for audio player
+    main.pb-28
+      block clientContent
+    //- Footer
+    include ../partials/footer
+    //- Audio player bar (fixed bottom)
+    include ../mixins/audio-player
+    +audioPlayer()
+
+block scripts
+  script(src='/client/js/main.js')
+  script(src='/client/js/client.js')
+  script(src='/client/js/audio-player.js')
+  script(src='/client/js/favorite.js')
+  script.
+    lucide.createIcons();
+  block clientScripts
