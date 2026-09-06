@@ -10,14 +10,13 @@ mixin boxChange(path, type)
       class="bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block px-3 py-2 outline-none transition-colors"
     )
       option(disabled selected value="") Chọn hành động
-      if type === 'topic' || type === 'song'
+      if type === 'topic' || type === 'song' || type === 'singer'
         option(value="active") Hoạt động
         option(value="inactive") Dừng hoạt động
-        option(value="change-position") Thay đổi vị trí
       else if type === 'account' || type === 'role' || type === 'user'
         option(value="active") Kích hoạt
         option(value="inactive") Vô hiệu hóa
-      option(value="delete") Xóa tất cả
+      option(value="delete") Xóa nhiều
     
     input(
       type="text"
