@@ -1,0 +1,90 @@
+extends ../../layouts/admin
+include ../../mixins/button
+include ../../mixins/pagination
+include ../../mixins/filter-status
+include ../../mixins/change-multi
+include ../../mixins/sort
+include ../../mixins/modal
+include ../../mixins/badge
+include ../../mixins/search-bar
+include ../../mixins/breadcrumb
+include ../../mixins/avatar
+
+block pageTitle
+  | #{pageTitle}
+
+block breadcrumbItems
+  +breadcrumb([
+    {label: 'Trang chủ', url: '/admin/dashboard'},
+    {label: 'Tài khoản', url: '/admin/accounts'}
+  ])
+
+block adminContent
+  div(class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6")
+    div
+      h1(class="text-2xl font-bold text-slate-900") Quản lý ca sĩ
+      p(class="text-slate-500 mt-1 text-sm") Xem, thêm, sửa, xóa các ca sĩ
+    div(class="flex items-center gap-3")
+      a(href="/admin/accounts/create" class="inline-flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-lg px-4 py-2.5 text-sm shadow-sm transition-colors")
+        i(data-lucide="plus" class="w-4 h-4")
+        | Thêm mới
+
+  div(class="bg-white rounded-xl shadow-sm border border-slate-200")
+    div(class="p-4 border-b border-slate-200 flex flex-col xl:flex-row xl:items-center justify-between gap-4 bg-slate-50/50 rounded-t-xl")
+      //- - const filterStatus = [{ name: "Tất cả", status: "", class: "active" }, { name: "Hoạt động", status: "active", class: "" }, { name: "Dừng hoạt động", status: "inactive", class: "" }]
+      +filterStatus(filterStatus)
+      div(class="flex flex-wrap items-center gap-3 w-full xl:w-auto justify-end")
+        +boxChange("/admin/accounts/change-multi?_method=PATCH", "account")
+        +boxSort()
+        div(class="w-full sm:w-auto sm:max-w-xs")
+          +searchBar('Tìm kiếm ca sĩ...', '', '') 
+        
+    div(class="overflow-x-auto")
+      table(class="w-full text-left border-collapse min-w-[800px]")
+        thead
+          tr
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Người dùng
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Vai trò
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Trạng thái
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Ngày tạo
+            th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50 text-right") Hành động
+        tbody
+          each account in accounts
+            tr(class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-4")
+                div(class="flex items-center gap-3")
+                  +avatar(account.avatar, account.fullname, 'md')
+                  div(class="flex flex-col")
+                    span(class="font-medium text-slate-900")= account.fullname
+                    span(class="text-sm text-slate-500")= account.email
+              td(class="px-6 py-4")
+                if account.role_id.title === 'super-admin'
+                  +badge(account.role_id.title, 'primary')
+                else if account.role_id.title === 'admin'
+                  +badge(account.role_id.title, 'info')
+                else
+                  +badge(account.role_id.title, 'warning')
+              td(class="px-6 py-4")
+                if account.status === 'active'
+                  +badge('Hoạt động', 'success')
+                else
+                  +badge('Bị khóa', 'danger')
+              td(class="px-6 py-4 text-sm text-slate-500")= account.createdBy.createdAt
+              td(class="px-6 py-4 text-right")
+                div(class="flex items-center justify-end gap-2")
+                  a(href=`/admin/accounts/edit/${account.id}` class="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Sửa")
+                    i(data-lucide="edit").w-4.h-4
+                  button(type="button" class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Xóa" data-delete-url=`/admin/accounts/delete/${account.id}`)
+                    i(data-lucide="trash-2" class="w-4 h-4")
+    div(class="p-4 border-t border-slate-200 flex items-center justify-between")
+      span(class="text-sm text-slate-500") Tổng số tài khoản: #{countData}
+      +pagination(objectPagination)
+  +modal({
+    id: 'delete-confirm',
+    title: 'Xóa tài khoản',
+    body: 'Bạn có chắc chắn muốn xóa tài khoản này không? Hành động này không thể hoàn tác.',
+    cancelLabel: 'Hủy'
+  })
+    form(id="delete-form" method="POST" action="")
+      input(type="hidden" name="_method" value="DELETE")
+      button(type="submit" class="px-4 py-2 rounded-lg font-medium transition-colors bg-red-500 hover:bg-red-600 text-white") Xác nhận

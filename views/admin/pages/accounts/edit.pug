@@ -1,0 +1,83 @@
+extends ../../layouts/admin
+include ../../mixins/breadcrumb
+include ../../mixins/form-controls
+include ../../mixins/button
+
+block pageTitle
+  title Chỉnh sửa tài khoản | Admin
+
+block breadcrumbItems
+  +breadcrumb([
+    {label: 'Trang chủ', url: '/admin/dashboard'},
+    {label: 'Tài khoản', url: '/admin/accounts'},
+    {label: 'Chỉnh sửa', url: ''}
+  ])
+
+block adminContent
+  div(class="mb-6")
+    h1(class="text-2xl font-bold text-slate-900") Chỉnh sửa tài khoản
+    p(class="text-slate-500 mt-1 text-sm") Cập nhật thông tin tài khoản quản trị
+
+  div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 max-w-2xl")
+    form(action=`/admin/accounts/edit/${account.id}?_method=PATCH` method="POST" enctype="multipart/form-data" class="validate-form space-y-6")
+      +formInput({
+        name: 'username',
+        label: 'Tên đăng nhập',
+        type: 'text',
+        value: account.username,
+        required: true
+      })
+      +formInput({
+        name: 'fullname',
+        label: 'Họ và tên',
+        type: 'text',
+        value: account.fullname,
+        required: true
+      })
+      
+      +formInput({
+        name: 'email',
+        label: 'Email đăng nhập',
+        type: 'email',
+        value: account.email,
+        required: true
+      })
+      
+      +formInput({
+        name: 'password',
+        label: 'Mật khẩu mới (Để trống nếu không đổi)',
+        type: 'password',
+        placeholder: 'Nhập mật khẩu mới...'
+      })
+      
+      +formSelect({
+        name: 'role_id',
+        label: 'Vai trò',
+        options: roles,
+        selected: account.role_id,
+        required: true
+      })
+      
+      +formFileUpload({
+        name: 'avatar',
+        label: 'Ảnh đại diện',
+        accept: 'image/*',
+        previewUrl: account.avatar,
+        helpText: 'Kích thước tối đa 2MB.'
+      })
+      
+      +formSelect({
+        name: 'status',
+        label: 'Trạng thái',
+        options: [
+          {value: 'active', text: 'Hoạt động'},
+          {value: 'inactive', text: 'Khóa tài khoản'}
+        ],
+        selected: account.status
+      })
+      
+      div(class="pt-4 flex items-center gap-3 border-t border-slate-200")
+        button(type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-lg px-4 py-2.5 text-sm shadow-sm inline-flex items-center gap-2 transition-colors")
+          i(data-lucide="save").w-4.h-4
+          | Cập nhật
+        a(href="/admin/accounts" class="border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium rounded-lg px-4 py-2.5 text-sm transition-colors") Hủy bỏ
