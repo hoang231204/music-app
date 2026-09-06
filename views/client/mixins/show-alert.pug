@@ -1,0 +1,10 @@
+mixin showAlert()
+  if locals.flash
+    each message in (locals.flash.success || [])
+      div(class="mb-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300")= message
+    each message in (locals.flash.error || [])
+      div(class="mb-3 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300")= message
+    each message in (locals.flash.warning || [])
+      div(class="mb-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-300")= message
+    each message in (locals.flash.info || [])
+      div(class="mb-3 rounded-lg border border-sky-500/30 bg-sky-500/10 px-4 py-3 text-sm text-sky-300")= message

@@ -1,0 +1,17 @@
+//- mixin emptyState(config)
+//- config: {icon, title, description, actionLabel, actionUrl}
+mixin emptyState(config)
+  div(class="flex flex-col items-center justify-center p-12 text-center")&attributes(attributes)
+    if config.icon
+      div(class="w-24 h-24 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-6")
+        i(data-lucide=config.icon class="w-12 h-12 text-slate-400 dark:text-slate-500")
+    else
+      img(src="/images/empty-state.svg" alt="Empty state" class="w-48 h-48 mx-auto mb-6 opacity-80")
+      
+    h3(class="text-xl font-semibold text-slate-900 dark:text-white mb-2")= config.title
+    p(class="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-6")= config.description
+    
+    if config.actionLabel && config.actionUrl
+      a(href=config.actionUrl class="inline-flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white font-medium px-6 py-2.5 rounded-lg transition-colors")
+        i(data-lucide="plus" class="w-4 h-4")
+        span= config.actionLabel

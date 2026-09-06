@@ -1,0 +1,15 @@
+//- mixin cardTopic(topic)
+//- topic: {title, cover, description, slug, songCount}
+mixin cardTopic(topic)
+  a(href=`/topics/${topic.slug}` class="group block")&attributes(attributes)
+    div(class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10")
+      div(class="relative aspect-video overflow-hidden")
+        img(src=topic.avatar alt=topic.title class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110")
+        div(class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent")
+        if topic.songCount
+          div(class="absolute top-3 right-3 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 flex items-center gap-1.5")
+            i(data-lucide="music" class="w-3 h-3 text-white")
+            span(class="text-xs font-medium text-white")= topic.songCount
+      div(class="p-4")
+        h3(class="text-white font-bold text-lg mb-1 group-hover:text-indigo-400 transition-colors")= topic.title
+        p(class="text-slate-400 text-sm line-clamp-2")= topic.description

@@ -1,0 +1,48 @@
+//- mixin tabs(items, activeId)
+//- items: [{id, label, icon}]
+mixin tabs(items, activeId)
+  div&attributes(attributes)
+    //- Tab Nav
+    div(class="flex gap-1 bg-slate-100 dark:bg-white/5 rounded-xl p-1 mb-6 overflow-x-auto scrollbar-hide")
+      each item in items
+        - var isActive = item.id === activeId
+        button(
+          type="button"
+          data-tab=item.id
+          class="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap " + (isActive ? 'bg-white shadow-sm text-slate-900 dark:bg-white/10 dark:text-white' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white')
+        )
+          if item.icon
+            i(data-lucide=item.icon class="w-4 h-4")
+          span= item.label
+          
+    //- Tab Content Panels
+    div(class="relative")
+      block
+
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabContainers = document.querySelectorAll('[data-tab]');
+      tabContainers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const targetId = e.currentTarget.getAttribute('data-tab');
+          const wrapper = e.currentTarget.closest('.p-1').parentElement;
+          
+          // Update buttons
+          wrapper.querySelectorAll('[data-tab]').forEach(b => {
+            b.classList.remove('bg-white', 'shadow-sm', 'text-slate-900', 'dark:bg-white/10', 'dark:text-white');
+            b.classList.add('text-slate-500', 'dark:text-slate-400');
+          });
+          e.currentTarget.classList.add('bg-white', 'shadow-sm', 'text-slate-900', 'dark:bg-white/10', 'dark:text-white');
+          e.currentTarget.classList.remove('text-slate-500', 'dark:text-slate-400');
+          
+          // Update content panels
+          wrapper.querySelectorAll('.tab-content').forEach(panel => {
+            if (panel.getAttribute('data-tab-content') === targetId) {
+              panel.classList.remove('hidden');
+            } else {
+              panel.classList.add('hidden');
+            }
+          });
+        });
+      });
+    });

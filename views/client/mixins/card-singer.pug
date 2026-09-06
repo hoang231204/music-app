@@ -1,0 +1,14 @@
+//- mixin cardSinger(singer)
+//- singer: {name, avatar, songCount, slug}
+mixin cardSinger(singer)
+  a(href=`/singers/${singer.slug}` class="block group text-center")&attributes(attributes)
+    div(class="relative w-32 h-32 mx-auto mb-4")
+      img(
+        src=singer.avatar 
+        alt=singer.fullname
+        class="w-full h-full object-cover rounded-full transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]"
+      )
+      div(class="absolute inset-0 rounded-full border-2 border-transparent group-hover:border-indigo-500/50 transition-colors")
+    h3(class="text-white font-semibold text-lg truncate group-hover:text-indigo-400 transition-colors")= singer.fullname
+    if singer.songCount !== undefined
+      p(class="text-slate-400 text-sm mt-1") #{singer.songCount} bài hát
