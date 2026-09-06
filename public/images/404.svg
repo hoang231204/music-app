@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <circle cx="200" cy="150" r="80" fill="#1e1b4b" stroke="#6366f1" stroke-width="4"/>
+  <circle cx="200" cy="150" r="25" fill="#0f0d2e" stroke="#6366f1" stroke-width="2"/>
+  <path d="M120 150 L80 150" stroke="#ef4444" stroke-width="4" stroke-linecap="round" transform="rotate(45 100 150)"/>
+  <path d="M120 150 L80 150" stroke="#ef4444" stroke-width="4" stroke-linecap="round" transform="rotate(-45 100 150)"/>
+  <text x="200" y="270" fill="#94a3b8" font-family="Inter, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Page Not Found</text>
+  <!-- Broken line effect -->
+  <path d="M140 100 L180 150 L140 200" stroke="#0f0d2e" stroke-width="6" fill="none"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="cover-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312e81" />
+      <stop offset="100%" stop-color="#7e22ce" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#cover-grad)"/>
+  <path d="M190 230 C190 252 168 270 140 270 C112 270 90 252 90 230 C90 208 112 190 140 190 C148 190 156 192 162 195 L170 80 C170 65 180 53 195 50 L295 30 C308 28 320 38 320 50 L320 200 C320 222 298 240 270 240 C242 240 220 222 220 200 C220 178 242 160 270 160 C278 160 286 162 292 165 L300 65 L190 85 L190 230 Z" fill="rgba(255,255,255,0.2)"/>
+</svg>
