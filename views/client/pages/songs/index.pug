@@ -1,0 +1,38 @@
+extends ../../layouts/client
+include ../../mixins/card-song
+include ../../mixins/pagination
+include ../../mixins/sort
+
+block pageTitle
+  | #{pageTitle}
+
+block clientContent
+  
+  if topic
+    //- Topic Header
+    section(class="relative h-64 sm:h-80 mb-12 rounded-b-3xl overflow-hidden")
+      div(class="absolute inset-0 z-0")
+        img(src=topic.avatar alt=topic.title class="w-full h-full object-cover")
+        div(class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/20")
+      div(class="absolute inset-0 z-10 flex flex-col justify-end p-6 sm:p-12 max-w-7xl mx-auto w-full")
+        span(class="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full w-max mb-3 backdrop-blur-sm") #{topic.songCount} Bài Hát
+        h1(class="text-4xl sm:text-5xl font-bold text-white mb-2")= topic.title
+        p(class="text-slate-300 max-w-2xl")= topic.description
+  else
+    section(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-4")
+      h1(class="text-4xl sm:text-5xl font-bold text-white") Tất Cả Bài Hát
+      p(class="text-slate-400 mt-3") Khám phá toàn bộ bài hát đang có trên MusicApp.
+
+  section(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4")
+    //- Sort/Filter Bar
+    div(class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8")
+      h2(class="text-2xl font-bold text-white") Danh sách bài hát
+      div(class="flex items-center gap-3")
+        +boxSort()
+          
+    //- Songs Grid
+    div(class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 mb-12")
+      each song in songs
+        +cardSong(song)
+    div(class="flex justify-center mb-12")
+      +pagination(objectPagination)
