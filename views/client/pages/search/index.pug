@@ -1,0 +1,48 @@
+extends ../../layouts/client
+include ../../mixins/search-bar
+include ../../mixins/card-song
+include ../../mixins/card-singer
+include ../../mixins/card-topic
+include ../../mixins/empty-state
+
+block pageTitle
+  | #{pageTitle}
+
+block clientContent
+  section(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12")
+    div(class="max-w-2xl mx-auto mb-12")
+      +searchBar('Tìm kiếm bài hát, ca sĩ, chủ đề...', keyword, '/search')
+      
+    if songs.length === 0 && singers.length === 0 && topics.length === 0
+      +emptyState({icon: 'search-x', title: 'Không tìm thấy kết quả', description: `Rất tiếc, chúng tôi không tìm thấy kết quả nào cho "${keyword}". Vui lòng thử lại với từ khóa khác.`, actionLabel: 'Về trang chủ', actionUrl: '/'})
+    else
+      div(class="mb-10")
+        h1.text-2xl.font-semibold.text-white Kết quả tìm kiếm cho: 
+          span.text-indigo-400 "#{keyword}"
+          
+      if songs.length > 0
+        div(class="mb-12")
+          div(class="flex items-center justify-between mb-6")
+            h2.text-xl.font-bold.text-white Bài Hát
+            span.text-slate-400.text-sm #{songs.length} kết quả
+          div(class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6")
+            each song in songs
+              +cardSong(song)
+              
+      if singers.length > 0
+        div(class="mb-12")
+          div(class="flex items-center justify-between mb-6")
+            h2.text-xl.font-bold.text-white Ca Sĩ
+            span.text-slate-400.text-sm #{singers.length} kết quả
+          div(class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6")
+            each singer in singers
+              +cardSinger(singer)
+              
+      if topics.length > 0
+        div(class="mb-12")
+          div(class="flex items-center justify-between mb-6")
+            h2.text-xl.font-bold.text-white Chủ Đề
+            span.text-slate-400.text-sm #{topics.length} kết quả
+          div(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6")
+            each topic in topics
+              +cardTopic(topic)
