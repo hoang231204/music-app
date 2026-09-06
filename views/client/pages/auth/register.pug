@@ -1,0 +1,70 @@
+extends ../../layouts/client
+
+block pageTitle
+  | #{pageTitle}
+
+block clientContent
+  section(class="relative min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden")
+    //- Background animated shapes
+    div(class="absolute inset-0 z-0")
+      div(class="absolute top-1/4 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full mix-blend-screen filter blur-3xl animate-blob")
+      div(class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-2000")
+      
+    div(class="relative z-10 w-full max-w-md")
+      div(class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden")
+        div(class="p-8 sm:p-10")
+          div(class="text-center mb-8")
+            div(class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 mb-4 shadow-lg")
+              i(data-lucide="user-plus" class="w-6 h-6 text-white")
+            h2(class="text-2xl sm:text-3xl font-bold text-white") Đăng Ký Tài Khoản
+            p(class="text-slate-400 mt-2") Tham gia cộng đồng âm nhạc của chúng tôi
+            
+          form(action="/auth/register" method="POST" class="space-y-5")
+            div
+              label(for="username" class="block text-sm font-medium text-slate-300 mb-1.5") Tên đăng nhập
+              div(class="relative")
+                div(class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none")
+                  i(data-lucide="user" class="w-5 h-5 text-slate-500")
+                input(type="text" name="username" id="username" required placeholder="Nhập tên đăng nhập" class="block w-full pl-10 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all")
+            div
+              label(for="fullname" class="block text-sm font-medium text-slate-300 mb-1.5") Họ và tên
+              div(class="relative")
+                div(class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none")
+                  i(data-lucide="user" class="w-5 h-5 text-slate-500")
+                input(type="text" name="fullname" id="fullname" required placeholder="Nhập họ và tên" class="block w-full pl-10 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all")
+
+            div
+              label(for="email" class="block text-sm font-medium text-slate-300 mb-1.5") Email
+              div(class="relative")
+                div(class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none")
+                  i(data-lucide="mail" class="w-5 h-5 text-slate-500")
+                input(type="email" name="email" id="email" required placeholder="Nhập email của bạn" class="block w-full pl-10 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all")
+                
+            div
+              label(for="password" class="block text-sm font-medium text-slate-300 mb-1.5") Mật khẩu
+              div(class="relative")
+                div(class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none")
+                  i(data-lucide="lock" class="w-5 h-5 text-slate-500")
+                input(type="password" name="password" id="password" required placeholder="Tạo mật khẩu" class="block w-full pl-10 pr-10 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all")
+                  
+            div
+              label(for="confirm-password" class="block text-sm font-medium text-slate-300 mb-1.5") Xác nhận mật khẩu
+              div(class="relative")
+                div(class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none")
+                  i(data-lucide="check-circle" class="w-5 h-5 text-slate-500")
+                input(type="password" name="confirm_password" id="confirm-password" required placeholder="Nhập lại mật khẩu" class="block w-full pl-10 pr-10 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all")
+                  
+            div(class="flex items-start")
+              div(class="flex items-center h-5")
+                input(id="terms" name="terms" type="checkbox" required class="h-4 w-4 rounded border-white/10 bg-white/5 text-indigo-500 focus:ring-indigo-500/50 focus:ring-offset-gray-900")
+              div(class="ml-2 text-sm")
+                label(for="terms" class="text-slate-300") Tôi đồng ý với 
+                  a(href="#" class="text-indigo-400 hover:text-indigo-300") Điều khoản dịch vụ
+                  |  và 
+                  a(href="#" class="text-indigo-400 hover:text-indigo-300") Chính sách bảo mật
+              
+            button(type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg shadow-indigo-500/25 text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-indigo-500 transition-all duration-300 mt-2") Đăng Ký
+                
+        div(class="px-8 py-6 bg-white/5 border-t border-white/10 text-center")
+          p(class="text-sm text-slate-400") Đã có tài khoản? 
+            a(href="/auth/login" class="font-medium text-indigo-400 hover:text-indigo-300 transition-colors") Đăng nhập
