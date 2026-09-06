@@ -1,0 +1,21 @@
+extends ../layouts/client
+
+block pageTitle
+  title Không Tìm Thấy Trang | Music App
+
+block clientContent
+  section.relative.min-h-\[70vh\].flex.flex-col.items-center.justify-center.py-12.px-4.text-center
+    .relative.z-10.max-w-md.mx-auto
+      .mb-8.text-9xl.font-extrabold.text-transparent.bg-clip-text.bg-gradient-to-r.from-indigo-500.to-purple-600 404
+      h1.text-3xl.sm\:text-4xl.font-bold.text-white.mb-4 Oops! Trang không tồn tại
+      p.text-slate-400.mb-10 Giai điệu bạn đang tìm kiếm có vẻ như đã đi lạc. Hãy thử tìm một bài hát khác nhé.
+      
+      .flex.flex-col.sm\:flex-row.items-center.justify-center.gap-4.mb-12
+        a(href="/" class="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-xl px-8 py-3 shadow-lg shadow-indigo-500/25 transition-all inline-flex items-center justify-center gap-2")
+          i(data-lucide="home").w-5.h-5
+          | Về trang chủ
+          
+      .max-w-xs.mx-auto
+        form(action="/search" method="GET" class="relative")
+          input(type="text" name="q" placeholder="Tìm kiếm..." class="w-full bg-white/5 border border-white/10 rounded-full py-3 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50")
+          i(data-lucide="search").w-5.h-5.text-slate-500.absolute.left-3.top-3.5
