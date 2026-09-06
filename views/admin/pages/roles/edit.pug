@@ -1,0 +1,46 @@
+extends ../../layouts/admin
+include ../../mixins/breadcrumb
+include ../../mixins/form-controls
+
+block pageTitle
+  title Phân quyền | Admin
+
+block breadcrumbItems
+  +breadcrumb([
+    {label: 'Trang chủ', url: '/admin/dashboard'},
+    {label: 'Nhóm quyền', url: '/admin/roles'},
+    {label: 'Phân quyền', url: ''}
+  ])
+
+block adminContent
+  - 
+    var role = { id: 2, name: 'Editor', description: 'Quản lý nội dung: Thêm, sửa, xóa bài hát, chủ đề, ca sĩ.' }
+  div(class="mb-6")
+    h1(class="text-2xl font-bold text-slate-900") Cập nhật phân quyền
+    p(class="text-slate-500 mt-1 text-sm") Chỉnh sửa quyền hạn cho nhóm: #{role.name}
+
+  form(action=`/admin/roles/edit/${role.id}` method="POST" class="space-y-6")
+    
+    //- Thông tin cơ bản
+    div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6")
+      h2(class="text-lg font-semibold text-slate-900 mb-4") Thông tin nhóm
+      div(class="grid grid-cols-1 md:grid-cols-2 gap-6")
+        +formInput({
+          name: 'title',
+          label: 'Tên nhóm',
+          type: 'text',
+          value: role.title,
+          required: true
+        })
+        +formInput({
+          name: 'description',
+          label: 'Mô tả',
+          type: 'text',
+          value: role.description
+        })
+
+    div(class="flex items-center gap-3")
+      button(type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-lg px-6 py-2.5 text-sm shadow-sm inline-flex items-center gap-2 transition-colors")
+        i(data-lucide="save").w-4.h-4
+        | Lưu phân quyền
+      a(href="/admin/roles" class="border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium rounded-lg px-6 py-2.5 text-sm transition-colors") Hủy bỏ

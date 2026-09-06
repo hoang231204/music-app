@@ -1,0 +1,250 @@
+extends ../../layouts/admin
+include ../../mixins/breadcrumb
+
+block pageTitle
+  | #{pageTitle}
+
+block breadcrumbItems
+  +breadcrumb([
+    {label: 'Trang chủ', url: '/admin/dashboard'},
+    {label: 'Nhóm quyền', url: '/admin/roles'},
+    {label: 'Phân quyền', url: ''}
+  ])
+
+block adminContent
+  div(class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6")
+    div
+      h1(class="text-2xl font-bold text-slate-900") Phân quyền
+      p(class="text-slate-500 mt-1 text-sm") Thiết lập quyền hạn chi tiết cho từng nhóm quyền
+    div(class="flex items-center gap-3")
+      button(
+        type="button"
+        class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg px-4 py-2.5 text-sm shadow-sm transition-colors"
+        button-submit
+      )
+        i(data-lucide="save" class="w-4 h-4")
+        | Cập nhật
+
+  if(roles)
+    input(type="hidden" value=roles input-records)
+
+    div(class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden")
+      div(class="overflow-x-auto")
+        table(class="w-full text-left border-collapse" table-permissions)
+          thead
+            tr(data-name="id")
+              th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50 sticky left-0 z-10") Tính năng
+              each role in roles
+                th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50 text-center")
+                  div #{role.title}
+                  input(type="hidden" value=role._id)
+          tbody
+            //- Chọn tất cả
+            tr(class="border-b border-slate-100 bg-slate-50/50")
+              td(class="px-6 py-3 font-semibold text-slate-800 sticky left-0 z-10 bg-slate-50/50") Chọn tất cả
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  label(class="inline-flex items-center justify-center")
+                    input(type="checkbox" checkbox-select-all class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            //- Quản lý chủ đề
+            tr(class="border-b border-slate-200 bg-indigo-50/50")
+              td(colspan="100%" class="px-6 py-3")
+                div(class="flex items-center gap-2 font-semibold text-indigo-700 text-sm")
+                  i(data-lucide="folder" class="w-4 h-4")
+                  | Quản lý chủ đề
+
+            tr(data-name="topic_view" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xem
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="topic_create" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Thêm mới
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="topic_edit" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Chỉnh sửa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="topic_delete" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xóa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            //- Quản lý ca sĩ
+            tr(class="border-b border-slate-200 bg-indigo-50/50")
+              td(colspan="100%" class="px-6 py-3")
+                div(class="flex items-center gap-2 font-semibold text-indigo-700 text-sm")
+                  i(data-lucide="music" class="w-4 h-4")
+                  | Quản lý ca sĩ
+
+            tr(data-name="singer_view" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xem
+              each role in roles 
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="singer_create" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Thêm mới
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="singer_edit" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Chỉnh sửa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="singer_delete" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xóa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+            //- Quản lý bài hát
+            tr(class="border-b border-slate-200 bg-indigo-50/50")
+              td(colspan="100%" class="px-6 py-3")
+                div(class="flex items-center gap-2 font-semibold text-indigo-700 text-sm")
+                  i(data-lucide="music" class="w-4 h-4")
+                  | Quản lý bài hát
+
+            tr(data-name="song_view" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xem
+              each role in roles 
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="song_create" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Thêm mới
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="song_edit" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Chỉnh sửa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="song_delete" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xóa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+            //- Quản lý tài khoản
+            tr(class="border-b border-slate-200 bg-indigo-50/50")
+              td(colspan="100%" class="px-6 py-3")
+                div(class="flex items-center gap-2 font-semibold text-indigo-700 text-sm")
+                  i(data-lucide="music" class="w-4 h-4")
+                  | Quản lý tài khoản
+
+            tr(data-name="account_view" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xem
+              each role in roles 
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="account_create" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Thêm mới
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="account_edit" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Chỉnh sửa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="account_delete" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xóa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+            //- Quản lý người dùng
+            tr(class="border-b border-slate-200 bg-indigo-50/50")
+              td(colspan="100%" class="px-6 py-3")
+                div(class="flex items-center gap-2 font-semibold text-indigo-700 text-sm")
+                  i(data-lucide="music" class="w-4 h-4")
+                  | Quản lý người dùng
+
+            tr(data-name="user_view" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xem
+              each role in roles 
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="user_create" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Thêm mới
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="user_edit" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Chỉnh sửa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="user_delete" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xóa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+            //- Quản lý nhóm quyền
+            tr(class="border-b border-slate-200 bg-indigo-50/50")
+              td(colspan="100%" class="px-6 py-3")
+                div(class="flex items-center gap-2 font-semibold text-indigo-700 text-sm")
+                  i(data-lucide="music" class="w-4 h-4")
+                  | Quản lý nhóm quyền
+
+            tr(data-name="role_view" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xem
+              each role in roles 
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="role_create" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Thêm mới
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="role_edit" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Chỉnh sửa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+
+            tr(data-name="role_delete" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Xóa
+              each role in roles
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+            //- Phân quyền
+            tr(class="border-b border-slate-200 bg-indigo-50/50")
+              td(colspan="100%" class="px-6 py-3")
+                div(class="flex items-center gap-2 font-semibold text-indigo-700 text-sm")
+                  i(data-lucide="music" class="w-4 h-4")
+                  | Phân quyền
+            tr(data-name="permission" class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+              td(class="px-6 py-3 text-sm text-slate-700 pl-10 sticky left-0 z-10 bg-white") Phân quyền
+              each role in roles 
+                td(class="px-6 py-3 text-center")
+                  input(type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer")
+  form(
+        action=`/admin/roles/permissions?_method=PATCH` 
+        method="POST" 
+        form-update-permissions
+    )
+        div 
+            input(type="text" name="permissions" class="form-control form-control-sm mt-1 text-center d-none" readonly input-submit)
+block adminScripts
+  script(src="/admin/js/permission.js")
