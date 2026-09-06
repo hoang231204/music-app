@@ -1,0 +1,78 @@
+extends ../layouts/admin
+include ../mixins/stats-card
+include ../mixins/badge
+include ../mixins/avatar
+include ../mixins/breadcrumb
+include ../mixins/button
+
+block pageTitle
+  title Dashboard | Admin
+  
+block breadcrumbItems
+  +breadcrumb([{label: 'Trang chủ', url: '/admin/dashboard'}])
+
+block adminContent
+  div(class="mb-6")
+    h1(class="text-2xl font-bold text-slate-900") Dashboard
+    p(class="text-slate-500 mt-1 text-sm") Chào mừng bạn quay trở lại, đây là tổng quan hệ thống.
+
+  div(class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8")
+    +statsCard({icon: 'music', label: 'Tổng bài hát', value: dashboardData.totalSongs, trend: dashboardData.songTrend.value, trendUp: dashboardData.songTrend.trendUp, color: 'indigo'})
+    +statsCard({icon: 'mic-2', label: 'Tổng ca sĩ', value: dashboardData.totalSingers, trend: dashboardData.singerTrend.value, trendUp: dashboardData.singerTrend.trendUp, color: 'emerald'})
+    +statsCard({icon: 'users', label: 'Tổng người dùng', value: dashboardData.totalUsers, trend: dashboardData.userTrend.value, trendUp: dashboardData.userTrend.trendUp, color: 'indigo'})
+    +statsCard({icon: 'list-music', label: 'Tổng chủ đề', value: dashboardData.totalTopics, trend: dashboardData.topicTrend.value, trendUp: dashboardData.topicTrend.trendUp, color: 'amber'})
+
+  div(class="grid grid-cols-1 lg:grid-cols-2 gap-6")
+    //- Recent Songs
+    div(class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden")
+      div(class="px-6 py-4 border-b border-slate-200 flex items-center justify-between")
+        h2(class="text-lg font-semibold text-slate-900") Bài hát mới thêm
+        a(href="/admin/songs" class="text-sm font-medium text-indigo-600 hover:text-indigo-700") Xem tất cả
+      div(class="overflow-x-auto")
+        table(class="w-full text-left border-collapse")
+          thead
+            tr
+              th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Bài hát
+              th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Lượt thích
+              th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Trạng thái
+          tbody
+            each song in dashboardData.recentSongs
+              tr(class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+                td(class="px-6 py-4")
+                  div(class="flex flex-col")
+                    span(class="text-sm font-medium text-slate-900")= song.title
+                    span(class="text-xs text-slate-500")= song.singer
+                td(class="px-6 py-4 text-sm text-slate-700")= song.likes
+                td(class="px-6 py-4")
+                  if song.status === 'active'
+                    +badge('Hoạt động', 'success')
+                  else
+                    +badge('Dừng', 'danger')
+
+    //- Recent Users
+    div(class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden")
+      div(class="px-6 py-4 border-b border-slate-200 flex items-center justify-between")
+        h2(class="text-lg font-semibold text-slate-900") Người dùng mới
+        a(href="/admin/users" class="text-sm font-medium text-indigo-600 hover:text-indigo-700") Xem tất cả
+      div(class="overflow-x-auto")
+        table(class="w-full text-left border-collapse")
+          thead
+            tr
+              th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Người dùng
+              th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Ngày tham gia
+              th(class="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50") Trạng thái
+          tbody
+            each user in dashboardData.recentUsers
+              tr(class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors")
+                td(class="px-6 py-4")
+                  div(class="flex items-center gap-3")
+                    +avatar(user.avatar, user.name, 'sm')
+                    div(class="flex flex-col")
+                      span(class="text-sm font-medium text-slate-900")= user.name
+                      span(class="text-xs text-slate-500")= user.email
+                td(class="px-6 py-4 text-sm text-slate-700")= user.joinDate
+                td(class="px-6 py-4")
+                  if user.status === 'active'
+                    +badge('Hoạt động', 'success')
+                  else
+                    +badge('Bị khóa', 'danger')
