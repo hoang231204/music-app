@@ -1,0 +1,45 @@
+footer(class="bg-[#0a0820] border-t border-white/5 mt-16 pt-12 pb-6")
+  div(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8")
+    div(class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12")
+      //- Column 1: Logo & About
+      div(class="space-y-4")
+        div(class="flex items-center gap-2")
+          img(src='/images/logo.svg' alt='Logo' class="h-8 w-8" onerror="this.src='https://cdn.iconscout.com/icon/free/png-256/music-1128-434479.png'")
+          span(class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-pink-400") MusicApp
+        p(class="text-sm text-slate-500 leading-relaxed")
+          | Nền tảng phát nhạc trực tuyến hàng đầu, mang đến cho bạn trải nghiệm âm nhạc tuyệt vời nhất với hàng triệu bài hát chất lượng cao.
+
+      //- Column 2: Khám phá
+      div
+        h3(class="text-sm font-semibold text-white uppercase tracking-wider mb-4") Khám phá
+        ul(class="space-y-3")
+          li: a(href='/topics' class="text-sm text-slate-500 hover:text-white transition-colors") Chủ đề
+          li: a(href='/songs?sort=new' class="text-sm text-slate-500 hover:text-white transition-colors") Bài hát mới
+          li: a(href='/singers' class="text-sm text-slate-500 hover:text-white transition-colors") Ca sĩ
+          li: a(href='/charts' class="text-sm text-slate-500 hover:text-white transition-colors") Bảng xếp hạng
+
+      //- Column 3: Hỗ trợ
+      div
+        h3(class="text-sm font-semibold text-white uppercase tracking-wider mb-4") Hỗ trợ
+        ul(class="space-y-3")
+          li: a(href='/contact' class="text-sm text-slate-500 hover:text-white transition-colors") Liên hệ
+          li: a(href='/faq' class="text-sm text-slate-500 hover:text-white transition-colors") Câu hỏi thường gặp
+          li: a(href='/terms' class="text-sm text-slate-500 hover:text-white transition-colors") Điều khoản sử dụng
+          li: a(href='/privacy' class="text-sm text-slate-500 hover:text-white transition-colors") Chính sách bảo mật
+
+      //- Column 4: Kết nối
+      div
+        h3(class="text-sm font-semibold text-white uppercase tracking-wider mb-4") Kết nối
+        div(class="flex items-center gap-4")
+          a(href='#' aria-label='Facebook' class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-indigo-600 hover:text-white transition-all")
+            i(data-lucide='facebook' class="w-5 h-5")
+          a(href='#' aria-label='YouTube' class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-red-600 hover:text-white transition-all")
+            i(data-lucide='youtube' class="w-5 h-5")
+          a(href='#' aria-label='Instagram' class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-pink-600 hover:text-white transition-all")
+            i(data-lucide='instagram' class="w-5 h-5")
+          a(href='#' aria-label='Twitter' class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-blue-400 hover:text-white transition-all")
+            i(data-lucide='twitter' class="w-5 h-5")
+
+    //- Bottom bar
+    div(class="pt-8 border-t border-white/5 text-center")
+      p(class="text-sm text-slate-500") &copy; #{new Date().getFullYear()} MusicApp. All rights reserved.
