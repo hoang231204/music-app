@@ -1,0 +1,63 @@
+extends ../../layouts/admin
+include ../../mixins/breadcrumb
+include ../../mixins/form-controls
+include ../../mixins/button
+
+block pageTitle
+  | #{pageTitle}
+
+block breadcrumbItems
+  +breadcrumb([
+    {label: 'Trang chủ', url: '/admin/dashboard'},
+    {label: 'Chủ đề', url: '/admin/topics'},
+    {label: 'Chỉnh sửa', url: '/admin/topics/edit'}
+  ])
+
+block adminContent
+  div(class="mb-6")
+    h1(class="text-2xl font-bold text-slate-900") Chỉnh sửa chủ đề
+    p(class="text-slate-500 mt-1 text-sm") Cập nhật thông tin chủ đề âm nhạc
+
+  div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 max-w-2xl")
+    form(action=`/admin/topics/edit/${topic._id}?_method=PATCH` enctype="multipart/form-data" method="POST" class="validate-form space-y-6")
+      
+      +formInput({
+        name: 'title',
+        label: 'Tên chủ đề',
+        type: 'text',
+        placeholder: 'Nhập tên chủ đề...',
+        value: topic.title,
+        required: true
+      })
+      
+      +formFileUpload({
+        name: 'avatar',
+        label: 'Ảnh bìa',
+        accept: 'image/*',
+        previewUrl: topic.avatar,
+        helpText: 'Định dạng hỗ trợ: JPG, PNG, WEBP. Kích thước tối đa: 5MB.'
+      })
+      
+      +formTextarea({
+        name: 'description',
+        label: 'Mô tả',
+        placeholder: 'Nhập mô tả cho chủ đề này...',
+        value: topic.description,
+        rows: 4
+      })
+      
+      +formSelect({
+        name: 'status',
+        label: 'Trạng thái',
+        options: [
+          {value: 'active', text: 'Hoạt động'},
+          {value: 'inactive', text: 'Dừng hoạt động'}
+        ],
+        selected: topic.status
+      })
+      
+      div(class="pt-4 flex items-center gap-3 border-t border-slate-200")
+        button(type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-lg px-4 py-2.5 text-sm shadow-sm inline-flex items-center gap-2 transition-colors")
+          i(data-lucide="save").w-4.h-4
+          | Cập nhật
+        a(href="/admin/topics" class="border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium rounded-lg px-4 py-2.5 text-sm transition-colors") Hủy bỏ
