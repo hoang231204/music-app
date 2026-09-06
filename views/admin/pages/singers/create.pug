@@ -1,0 +1,53 @@
+extends ../../layouts/admin
+include ../../mixins/breadcrumb
+include ../../mixins/form-controls
+include ../../mixins/button
+
+block pageTitle
+  | #{pageTitle}
+
+block breadcrumbItems
+  +breadcrumb([
+    {label: 'Trang chủ', url: '/admin/dashboard'},
+    {label: 'Ca sĩ', url: '/admin/singers'},
+    {label: 'Thêm mới', url: ''}
+  ])
+
+block adminContent
+  div(class="mb-6")
+    h1(class="text-2xl font-bold text-slate-900") Thêm ca sĩ mới
+    p(class="text-slate-500 mt-1 text-sm") Nhập thông tin để tạo hồ sơ ca sĩ
+
+  div(class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 max-w-2xl")
+    form(action="/admin/singers/create" method="POST" enctype="multipart/form-data" class="validate-form space-y-6")
+      
+      +formInput({
+        name: 'fullname',
+        label: 'Tên ca sĩ',
+        type: 'text',
+        placeholder: 'Nhập tên ca sĩ...',
+        required: true
+      })
+      
+      +formFileUpload({
+        name: 'avatar',
+        label: 'Ảnh đại diện (Avatar)',
+        accept: 'image/*',
+        helpText: 'Tỉ lệ 1:1, tối đa 5MB.'
+      })
+      
+      +formSelect({
+        name: 'status',
+        label: 'Trạng thái',
+        options: [
+          {value: 'active', text: 'Hoạt động'},
+          {value: 'inactive', text: 'Dừng hoạt động'}
+        ],
+        selected: 'active'
+      })
+      
+      div(class="pt-4 flex items-center gap-3 border-t border-slate-200")
+        button(type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-lg px-4 py-2.5 text-sm shadow-sm inline-flex items-center gap-2 transition-colors")
+          i(data-lucide="save").w-4.h-4
+          | Lưu lại
+        a(href="/admin/singers" class="border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium rounded-lg px-4 py-2.5 text-sm transition-colors") Hủy bỏ
