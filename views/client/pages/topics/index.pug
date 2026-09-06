@@ -1,0 +1,22 @@
+extends ../../layouts/client
+include ../../mixins/card-topic
+include ../../mixins/search-bar
+include ../../mixins/pagination
+
+block pageTitle
+  | #{pageTitle}
+
+block clientContent
+  section(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12")
+    div(class="mb-10")
+      h1(class="text-3xl sm:text-4xl font-bold text-white mb-4") Chủ Đề Âm Nhạc
+      p(class="text-slate-400 mb-8") Khám phá các thể loại và bộ sưu tập được chọn lọc riêng cho bạn.
+      
+      div(class="max-w-md")
+        +searchBar('Tìm kiếm chủ đề...', '', '/topics')
+        
+    div(class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12")
+      each topic in topics
+        +cardTopic(topic)
+    div(class="flex justify-center")
+      +pagination(objectPagination)
