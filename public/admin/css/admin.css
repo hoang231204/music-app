@@ -1,0 +1,97 @@
+:root {
+  --admin-bg: #f8fafc;
+  --admin-surface: #ffffff;
+  --admin-border: #e2e8f0;
+  --admin-text-main: #0f172a;
+  --admin-text-muted: #64748b;
+  --admin-sidebar-bg: #1e1b4b; /* Indigo sidebar */
+}
+
+/* Admin Sidebar Mobile Transition */
+.admin-sidebar {
+  transition: transform 0.3s ease;
+}
+.sidebar-open {
+  transform: translateX(0);
+}
+@media (max-width: 1024px) {
+  .admin-sidebar:not(.sidebar-open) {
+    transform: translateX(-100%);
+  }
+}
+
+.sidebar-overlay {
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(2px);
+  z-index: 30;
+  transition: opacity 0.3s ease;
+}
+
+/* Admin Table Enhancements */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.admin-table th {
+  background-color: #f1f5f9;
+  color: var(--admin-text-muted);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--admin-border);
+}
+.admin-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--admin-border);
+  color: var(--admin-text-main);
+  background-color: var(--admin-surface);
+}
+.admin-table tbody tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+.admin-table tbody tr:hover td {
+  background-color: #f1f5f9;
+}
+
+/* Admin Form File Drop Zone */
+.admin-drop-zone {
+  border: 2px dashed #cbd5e1;
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  color: var(--admin-text-muted);
+}
+.admin-drop-zone:hover, .admin-drop-zone.dragover {
+  border-color: var(--color-primary);
+  background-color: #e0e7ff;
+  color: var(--color-primary-dark);
+}
+
+/* Permission Matrix */
+.permission-matrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+.permission-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Print Styles */
+@media print {
+  .admin-sidebar, .admin-header, .no-print {
+    display: none !important;
+  }
+  .admin-main {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body {
+    background-color: white;
+  }
+}
