@@ -1,0 +1,10 @@
+import {Router} from "express";
+import * as authController from "../../controllers/client/auth-controller";
+const router: Router = Router();
+router.get("/register", authController.register);
+router.post("/register", authController.registerPost);
+router.get("/login", authController.login);
+router.post("/login", authController.loginPost);
+router.get("/refresh-token", authController.refreshToken);
+router.post("/logout", authController.logout);
+export default router;
