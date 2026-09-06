@@ -1,0 +1,22 @@
+extends ../../layouts/client
+include ../../mixins/card-song
+include ../../mixins/empty-state
+
+block pageTitle
+  | #{pageTitle}
+
+block clientContent
+  section(class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12")
+    .flex.items-end.gap-4.mb-10
+      div(class="bg-gradient-to-br from-pink-500 to-rose-600 w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-500/30")
+        i(data-lucide="heart").w-8.h-8.text-white.fill-white
+      div
+        h1(class="text-3xl sm:text-4xl font-bold text-white mb-1") Bài Hát Yêu Thích
+        p.text-slate-400 #{songs.length} bài hát trong thư viện
+        
+    if songs.length === 0
+      +emptyState({icon: 'heart-off', title: 'Chưa có bài hát yêu thích', description: 'Bạn chưa thêm bài hát nào vào danh sách yêu thích. Hãy khám phá và thêm những giai điệu bạn thích nhé.', actionLabel: 'Khám phá ngay', actionUrl: '/songs'})
+    else
+      div(class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 mb-12")
+        each song in songs
+          +cardSong(song)
