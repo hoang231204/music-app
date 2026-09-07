@@ -12,26 +12,34 @@ import flash from 'connect-flash'
 
 const app: Express = express()
 const port: number | string = process.env.PORT || 3000
-
-// Connect to the database
-database.connect()
+const projectRoot = path.basename(__dirname) === 'dist'
+  ? path.resolve(__dirname, '..')
+  : path.resolve(__dirname)
 
 // Middleware to parse JSON requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Template engine
-app.set('views', path.join(process.cwd(), 'views'))
+app.set('views', path.join(projectRoot, 'views'))
 app.set('view engine', 'pug')
 
 // Static files
-app.use(express.static(path.join(process.cwd(), 'public')));
+app.use(express.static(path.join(projectRoot, 'public')));
 //method override
 app.use(methodOverride('_method'));
 //cookie parser
 app.use(cookieParser());
 app.use(session({ secret: process.env.SESSION_SECRET || 'music-app-session-secret', resave: false, saveUninitialized: false, cookie: { maxAge: 24 * 60 * 60 * 1000 } }));
 app.use(flash());
+app.use(async (_req, _res, next) => {
+  try {
+    await database.connect();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 //route
 routerAdmin(app);
 routerClient(app);
