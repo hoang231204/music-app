@@ -1,0 +1,13 @@
+import {Router} from "express";
+import * as roleController from "../../controllers/admin/role-controller";
+import { requirePermission } from "../../middlewares/admin/require-permission";
+const router: Router = Router();
+router.get("/", requirePermission("role_view"), roleController.index);
+router.get("/create", requirePermission("role_create"), roleController.create);
+router.post("/create", requirePermission("role_create"), roleController.createPost);
+router.get("/edit/:id", requirePermission("role_edit"), roleController.edit);
+router.patch("/edit/:id", requirePermission("role_edit"), roleController.editPatch);
+router.delete("/delete/:id", requirePermission("role_delete"), roleController.deleteRole);
+router.get("/permissions", requirePermission("role_view"), roleController.permission);
+router.patch("/permissions", requirePermission("role_edit"), roleController.permissionPatch);
+export default router;

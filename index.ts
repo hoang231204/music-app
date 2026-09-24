@@ -1,10 +1,11 @@
 import path from 'path'
 import dotenv from 'dotenv'
 dotenv.config()
+import cors from 'cors'
 import express, {Express, Request, Response} from 'express'
 import * as database from './config/database-config'
-import routerAdmin from './routers/admin/index-route'
-import routerClient from './routers/client/index-route'
+import routerAdmin from './api/v1/routers/admin/index-route'
+import routerClient from './api/v1/routers/client/index-route'
 import methodOverride from 'method-override'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
@@ -17,12 +18,14 @@ const projectRoot = path.basename(__dirname) === 'dist'
   : path.resolve(__dirname)
 
 // Middleware to parse JSON requests
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Template engine
-app.set('views', path.join(projectRoot, 'views'))
-app.set('view engine', 'pug')
+// Removed Template engine
 
 // Static files
 app.use(express.static(path.join(projectRoot, 'public')));
