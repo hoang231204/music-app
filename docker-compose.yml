@@ -1,9 +1,11 @@
+version: '3.8'
+
 services:
-  app:
+  api:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: music_app
+    container_name: music_app_api
     ports:
       - "${PORT:-3000}:3000"
     env_file:
@@ -11,3 +13,14 @@ services:
     environment:
       - NODE_ENV=production
     restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: music_app_frontend
+    ports:
+      - "5173:80"
+    restart: unless-stopped
+    depends_on:
+      - api
