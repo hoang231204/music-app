@@ -1,0 +1,132 @@
+.music-player {
+  justify-content: space-between;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+.player-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 30%;
+}
+
+.track-cover {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-panel-hover);
+}
+
+.cover-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+}
+
+.track-title {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.track-artist {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.player-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 40%;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.control-btn {
+  color: var(--text-muted);
+  font-size: 20px;
+}
+
+.control-btn:hover {
+  color: white;
+}
+
+.play-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  color: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.play-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.time-text {
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 35px;
+  text-align: center;
+}
+
+.progress-bar-bg {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-panel-hover);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 2px;
+}
+
+.player-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 30%;
+}
+
+.volume-icon {
+  color: var(--text-muted);
+}
+
+.volume-bar-bg {
+  width: 100px;
+  height: 4px;
+  background: var(--bg-panel-hover);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.volume-bar-fill {
+  height: 100%;
+  background: white;
+  border-radius: 2px;
+}
