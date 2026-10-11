@@ -13,7 +13,7 @@ const filterStatusHelper = (query: QueryParams, type: FilterType): StatusItem[] 
   const allStatuses: StatusItem[] = [
     { name: "Tất cả", status: "", class: "" },
     { name: "Hoạt động", status: "active", class: "" },
-    { name: "Dừng hoạt động", status: "inactive", class: "" }
+    { name: "Không hoạt động", status: "inactive", class: "" }
   ];
 
   const topicStatuses: string[] = ["", "active", "inactive"];
@@ -31,7 +31,7 @@ const filterStatusHelper = (query: QueryParams, type: FilterType): StatusItem[] 
   if (type === 'song') {
     filterStatus = allStatuses.filter(item => songStatuses.includes(item.status));
   }
-  if(type === 'singer') {
+  if (type === 'singer') {
     filterStatus = allStatuses.filter(item => singerStatuses.includes(item.status));
   }
   if (type === 'role') {
